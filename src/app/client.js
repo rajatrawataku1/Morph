@@ -8,9 +8,9 @@ import store from "./store"
 
 const app = document.getElementById('app')
 
-store.subscribe(()=>{
-  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
-})
+// store.subscribe(()=>{
+//   localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+// })
 
 ReactDOM.render(<Provider store={store}>
   <div>
