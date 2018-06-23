@@ -1,13 +1,16 @@
 // import { combineReducers } from "redux"
-import { SET_COLUMN_HEAD, SET_CSV_UPLOADED, SET_JSON_CREATED, SET_CSV_CREATED, SET_JSON_UPLOADED, SET_VALUES } from '../actions/index.js';
+import { SET_COLUMN_HEAD, SET_CSV_UPLOADED, SET_JSON_CREATED, SET_CSV_CREATED, SET_JSON_UPLOADED, SET_VALUES, SET_STATUS,SET_JSON_CREATED_TEXT,SET_CSV_CREATED_TEXT } from '../actions/index.js';
 
 const initialState = {
-  columnName : [] ,
-  values : [] ,
+  columnName : [],
+  values : [],
   csvUploaded : 0,
   jsonCreated : 0,
   csvCreated : 0,
-  jsonUploaded : 0
+  jsonUploaded : 0,
+  jsonCreatedText : 0,
+  csvCreatedText :0,
+  status:""
 }
 
 let AppFunction = (state=initialState,action) =>{
@@ -42,7 +45,22 @@ let AppFunction = (state=initialState,action) =>{
         return Object.assign({},state,{
           csvCreated:action.data
         })
-        
+
+    case SET_STATUS:
+        return Object.assign({},state,{
+          status:action.data
+        })
+
+    case SET_JSON_CREATED_TEXT:
+        return Object.assign({},state,{
+          jsonCreatedText:action.data
+        })
+
+    case SET_CSV_CREATED_TEXT:
+        return Object.assign({},state,{
+          csvCreatedText:action.data
+        })
+
     default:
         return state;
   }

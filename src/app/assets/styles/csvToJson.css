@@ -1,0 +1,145 @@
+.mainApp{
+  position: absolute;
+  top:0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+}
+
+.textColor{
+  color: #647f86;
+  font-family: 'apercu-pro', sans-serif;
+  font-weight: bold;
+  font-size: 5vh;
+}
+
+.markLine{
+  border-left: 2px solid #99b6be;
+}
+
+.inputDiv{
+  border-radius: 5px;
+  border: 1px dashed #99b6be;
+}
+
+.iconMiddle{
+  padding-left: 5px;
+  vertical-align:sub;
+}
+
+.show{
+  display: block;
+}
+
+.unshow{
+  display: none;
+}
+
+.loaderBox{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.normalText{
+  color: #647f86;
+  font-family: 'apercu-pro', sans-serif;
+  font-weight: bold;
+  font-size: 3vh;
+}
+
+
+
+.jsontree_bg {
+    background: #FFF;
+}
+
+.jsontree_tree {
+    margin-left: 30px;
+    font-family: 'PT Mono', monospace;
+    font-size: 14px;
+}
+
+.jsontree_child-nodes {
+    display: none;
+    margin-left: 35px;
+    margin-bottom: 5px;
+    line-height: 2;
+}
+.jsontree_node_expanded > .jsontree_value-wrapper > .jsontree_value > .jsontree_child-nodes {
+    display: block;
+}
+
+.jsontree_label-wrapper {
+    float: left;
+    margin-right: 8px;
+}
+.jsontree_label {
+    font-weight: normal;
+    vertical-align: top;
+    color: #000;
+    position: relative;
+    padding: 1px;
+    border-radius: 4px;
+    cursor: default;
+}
+.jsontree_node_marked > .jsontree_label-wrapper > .jsontree_label {
+    background: #fff2aa;
+}
+
+.jsontree_value-wrapper {
+    display: block;
+    overflow: hidden;
+}
+.jsontree_node_complex > .jsontree_value-wrapper {
+    overflow: inherit;
+}
+.jsontree_value {
+    vertical-align: top;
+    display: inline;
+}
+.jsontree_value_null {
+    color: #777;
+    font-weight: bold;
+}
+.jsontree_value_string {
+    color: #025900;
+    font-weight: bold;
+}
+.jsontree_value_number {
+    color: #000E59;
+    font-weight: bold;
+}
+.jsontree_value_boolean {
+    color: #600100;
+    font-weight: bold;
+}
+
+.jsontree_expand-button {
+    position: absolute;
+    top: 3px;
+    left: -15px;
+    display: block;
+    width: 11px;
+    height: 11px;
+}
+.jsontree_node_expanded > .jsontree_label-wrapper > .jsontree_label > .jsontree_expand-button {
+    background-position: 0 -11px;
+}
+.jsontree_show-more {
+    cursor: pointer;
+}
+.jsontree_node_expanded > .jsontree_value-wrapper > .jsontree_value > .jsontree_show-more {
+    display: none;
+}
+.jsontree_node_empty > .jsontree_label-wrapper > .jsontree_label > .jsontree_expand-button,
+.jsontree_node_empty > .jsontree_value-wrapper > .jsontree_value > .jsontree_show-more {
+    display: none !important;
+}
+.jsontree_node_complex > .jsontree_label-wrapper > .jsontree_label {
+    cursor: pointer;
+}
+.jsontree_node_empty > .jsontree_label-wrapper > .jsontree_label {
+    cursor: default !important;
+}
