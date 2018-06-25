@@ -49,6 +49,14 @@
   font-size: 3vh;
 }
 
+.smallText{
+  color: #647f86;
+  font-family: 'apercu-pro', sans-serif;
+  font-weight: bold;
+  font-size: 2vh;
+  padding-top: 10px;
+}
+
 
 
 .jsontree_bg {

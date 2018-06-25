@@ -26,7 +26,6 @@ export class JSONtoCSV extends React.Component {
   }
 
   handleFileSelectedJsonCsv(event){
-
     event.stopPropagation();
     event.preventDefault();
     this.props.setJSONUploaded(0);
@@ -40,6 +39,7 @@ export class JSONtoCSV extends React.Component {
       // console.log(files);
       // console.log(files[0].name);
       // read the file
+      $(".loaderBox").removeClass("unshow");
       let reader = new FileReader();
       reader.readAsText(files[0]);
       reader.onload = this.loadHandlerJsonCsv;
@@ -115,6 +115,7 @@ export class JSONtoCSV extends React.Component {
         getCompleteCSV(jsonObjectMain).then( (mainCSVString) =>{
 
           this.props.setValues(mainCSVString);
+          $(".loaderBox").addClass("unshow");
 
           if(typeOfRequest===1){
             this.pasetTheCSV(mainCSVString);
@@ -162,6 +163,7 @@ creatDownloadLink(TotalData,fileName){
   }
 
   removeAllText(){
+    this.props.setCSVCreatedText(0);
     $("#textarea3").val("");
     $("#textarea4").val("");
   }
@@ -220,10 +222,14 @@ creatDownloadLink(TotalData,fileName){
       paddingRight : "1px"
     }
 
+    var loaderStyle = {
+      zIndex : "100"
+    }
+
     return (
 
       <div className="mainApp" >
-        <div className={"loaderBox "+ (this.props.status==='STARTED' ? 'show':'unshow')}>
+        <div style= {loaderStyle} className="loaderBox unshow">
           <div class="preloader-wrapper big active">
           <div class="spinner-layer spinner-blue">
             <div class="circle-clipper left">
@@ -348,8 +354,6 @@ creatDownloadLink(TotalData,fileName){
 
         </div>
       </div>
-
-
     )
   }
 }
