@@ -1,12 +1,5 @@
-/**
- * JSON Tree library (a part of jsonTreeViewer)
- * http://github.com/summerstyle/jsonTreeViewer
- *
- * Copyright 2017 Vera Lobacheva (http://iamvera.com)
- * Released under the MIT license (LICENSE.txt)
- */
 
-var jsonTree = (function() {
+var  jsonTree = (function() {
 
     /* ---------- Utilities ---------- */
     var utils = {
@@ -817,3 +810,5 @@ var jsonTree = (function() {
         }
     };
 })();
+
+export { jsonTree }

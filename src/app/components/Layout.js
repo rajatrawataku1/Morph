@@ -6,8 +6,8 @@ import JSONtoCSV from './JSONtoCSV/index.js';
 
 export default class Layout extends React.Component {
   componentWillMount() {
-
   }
+
   render() {
     return <main>
       <Switch>
