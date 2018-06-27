@@ -3,6 +3,8 @@ export const SET_FILE_JSON_CREATED = 'SET_FILE_JSON_CREATED';
 export const SET_CSV_TO_JSON_VALUES = 'SET_CSV_TO_JSON_VALUES';
 export const SET_CSV_INPUT_TEXT = 'SET_CSV_INPUT_TEXT';
 export const SET_JSON_OUTPUT_TEXT = 'SET_JSON_OUTPUT_TEXT';
+export const SET_TYPE_OF_PARSING = 'SET_TYPE_OF_PARSING';
+export const SET_TYPE_OF_OUTPUT = 'SET_TYPE_OF_OUTPUT';
 
 // ############################################################
 
@@ -49,6 +51,21 @@ export function setjsonOutputText(tempData){
       data:tempData
   }
 }
+
+export function setTypeOfParsing(tempData){
+  return {
+      type:SET_TYPE_OF_PARSING,
+      data:tempData
+  }
+}
+
+export function setTypeOfOutput(tempData){
+  return {
+      type:SET_TYPE_OF_OUTPUT,
+      data:tempData
+  }
+}
+
 
 // ##############################################################
 

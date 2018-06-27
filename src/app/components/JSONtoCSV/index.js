@@ -15,7 +15,19 @@ export class JSONtoCSV extends React.Component {
 
   convertTextAreatoCSV = ()=>{
     let textAreaString = this.props.jsonInputText;
-    this.processDataJsonCsv(textAreaString,1);
+    if(textAreaString === ""){
+      alert("Textarea is empty")
+    }else{
+      this.processDataJsonCsv(textAreaString,1);
+    }
+  }
+
+  checkFileType = (filename)=>{
+      if(filename.includes(".json")){
+        return 1;
+      }else{
+        return 0;
+      }
   }
 
   handleFileSelectedJsonCsv = (event)=>{
@@ -23,17 +35,21 @@ export class JSONtoCSV extends React.Component {
     event.preventDefault();
 
     let files = event.target.files;
-    if(files.length>0){
-      this.props.setJsonToCsvFileObject(files[0]);
-      let loaderElement = this.refs.loaderDiv;
-      loaderElement.setAttribute("style","display:block");
-      let reader = new FileReader();
-      reader.readAsText(files[0]);
-      reader.onload = this.loadHandlerJsonCsv;
+    if(this.checkFileType(files[0].name)){
+      if(files.length>0){
+        this.props.setJsonToCsvFileObject(files[0]);
+        let loaderElement = this.refs.loaderDiv;
+        loaderElement.setAttribute("style","display:block");
+        let reader = new FileReader();
+        reader.readAsText(files[0]);
+        reader.onload = this.loadHandlerJsonCsv;
+      }else{
+        this.props.setJsonToCsvFileObject({name:""});
+      }
+      this.props.setCSVCreated(0);
     }else{
-      this.props.setJsonToCsvFileObject({name:""});
+      alert("Wrong file Selected");
     }
-    this.props.setCSVCreated(0);
   }
 
   loadHandlerJsonCsv = ()=>{
@@ -100,6 +116,8 @@ export class JSONtoCSV extends React.Component {
         })
 
       }catch(err){
+        let loaderElement = this.refs.loaderDiv;
+        loaderElement.setAttribute("style","display:none");
         alert("Wrong JSON File");
       }
     }

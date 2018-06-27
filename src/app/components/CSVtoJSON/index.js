@@ -1,11 +1,10 @@
 import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
-import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText } from '../../actions/index.js';
+import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText, setTypeOfParsing, setTypeOfOutput } from '../../actions/index.js';
 import  csvtojson  from 'csvtojson';
 import  fileReaderStream from 'filereader-stream';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import '../../assets/styles/csvToJson.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -14,13 +13,12 @@ export class CSVtoJSON extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { typeOfParsing : "Object value null",typeOfOutput:"Output Array"};
   }
 
   // change the parsing choice whehter null or space
   onParsingChoice = (event)=>{
     let value = event.currentTarget.value;
-    this.setState({typeOfParsing : value});
+    this.props.setTypeOfParsing(value);
     this.props.setfileJsonCreated(0);
     this.props.setjsonOutputText("");
   }
@@ -28,14 +26,14 @@ export class CSVtoJSON extends React.Component {
   //  changing the type of output array or minified version
   onOutputChoice = (event)=>{
     let value = event.currentTarget.value;
-    this.setState({typeOfOutput : value});
+    this.props.setTypeOfOutput(value);
     this.props.setfileJsonCreated(0);
     this.props.setjsonOutputText("");
   }
 
   //  this function is used to retrieve the value of type of parsing
   getCurrrentParsingMethod = ()=>{
-    if(this.state.typeOfParsing === "Object value null"){
+    if(this.props.typeOfParsing === "Object value null"){
       return 1;
     }else{
       return 0;
@@ -44,7 +42,7 @@ export class CSVtoJSON extends React.Component {
 
   //  this function is used to retrive the value of type of output required
   getCurrrentOutputMethod = () =>{
-    if(this.state.typeOfOutput === "Output Array"){
+    if(this.props.typeOfOutput === "Output Array"){
       return 1;
     }else{
       return 0;
@@ -54,10 +52,9 @@ export class CSVtoJSON extends React.Component {
   //  this is the actual function which is convertin the file selected to json
   convertToJSON = ()=>{
     let fileObject = this.props.fileObject;
-
     //  comparing the file obejct if its empty returning from here only
-    if(fileObject===""){
-      alert("No file Choosen");
+    if(fileObject.name===""){
+      alert("No file Chosen");
     }else{
 
       //  show the loader now
@@ -69,8 +66,7 @@ export class CSVtoJSON extends React.Component {
       //  conerting the file object into file stream object
       let readStream = fileReaderStream(fileObject);
 
-      //  if there is any error in the csv or we cant complete traverse the csv array then it
-      //  is callled
+      //  if there is any error in the csv or we cant complete traverse the csv array then it is called
 
       let onError = (e)=>{
         let loaderElement = this.refs.loaderDiv;
@@ -113,20 +109,34 @@ export class CSVtoJSON extends React.Component {
 
   //  whenever we change the file selected then it will change the state to the
   //  chosen file if no file selected then the state will have space
+
+  checkFileType = (filename)=>{
+      if(filename.includes(".csv")){
+        return 1;
+      }else{
+        return 0;
+      }
+  }
+
   handleFileSelectedCsvJson = (event)=>{
     event.stopPropagation();
     event.preventDefault();
     let files = event.target.files;
-    if(files.length > 0){
-      this.props.setCsvToJsonFileObject(files[0]);
+
+    if(this.checkFileType(files[0].name)){
+      if(files.length > 0){
+        this.props.setCsvToJsonFileObject(files[0]);
+      }else{
+        this.props.setCsvToJsonFileObject({name:""});
+      }
+      this.props.setfileJsonCreated(0);
     }else{
-      this.props.setCsvToJsonFileObject({name:""});
+      alert("Wrong file Selected");
     }
-    this.props.setfileJsonCreated(0);
   }
 
   // used for creating the json tree which is shown in the div with ID showTree
-  createTheJsonTree = (completeObject)=>{
+  createTheJsonText = (completeObject)=>{
 
     let value = this.getCurrrentOutputMethod();
     if(value){
@@ -196,6 +206,11 @@ export class CSVtoJSON extends React.Component {
   //  this convert the textarea csv to json by traversing each line one by one
   convertTextAreatoJSON = () =>{
       let textAreaString = this.props.csvInputText;
+      if(textAreaString === ""){
+        alert("Textarea is empty");
+        return;
+      }
+
       csvtojson({
         noheader:true,
         output: "csv"
@@ -246,7 +261,7 @@ export class CSVtoJSON extends React.Component {
 
        getCompleteObject(csvRow).then((result)=>{
          this.props.setjsonOutputText(result);
-         this.createTheJsonTree(result);
+         this.createTheJsonText(result);
        })
 
       })
@@ -347,7 +362,7 @@ export class CSVtoJSON extends React.Component {
                        type="radio"
                        name="group1"
                        value="Object value null"
-                       checked={this.state.typeOfParsing === "Object value null"}
+                       checked={this.props.typeOfParsing === "Object value null"}
                        onChange={this.onParsingChoice}
                        id="test1"
                      />
@@ -358,7 +373,7 @@ export class CSVtoJSON extends React.Component {
                       name="group1"
                       type="radio"
                       value="Object value space"
-                      checked={this.state.typeOfParsing === "Object value space"}
+                      checked={this.props.typeOfParsing === "Object value space"}
                       onChange={this.onParsingChoice}
                        id="test2" />
                     <label htmlFor="test2">Object value space</label>
@@ -375,7 +390,7 @@ export class CSVtoJSON extends React.Component {
                        type="radio"
                        name="group2"
                        value="Output Array"
-                       checked={this.state.typeOfOutput === "Output Array"}
+                       checked={this.props.typeOfOutput === "Output Array"}
                        onChange={this.onOutputChoice}
                        id="test3"
                      />
@@ -386,7 +401,7 @@ export class CSVtoJSON extends React.Component {
                       name="group2"
                       type="radio"
                       value="Output minified Array"
-                      checked={this.state.typeOfOutput === "Output minified Array"}
+                      checked={this.props.typeOfOutput === "Output minified Array"}
                       onChange={this.onOutputChoice}
                        id="test4" />
                     <label htmlFor="test4">Minified Array</label>
@@ -483,7 +498,9 @@ const mapStateToProps = (state)=> {
       fileJsonCreated : state.fileJsonCreated,
       fileObject : state.fileObject,
       csvInputText : state.csvInputText,
-      jsonOutputText : state.jsonOutputText
+      jsonOutputText : state.jsonOutputText,
+      typeOfParsing : state.typeOfParsing,
+      typeOfOutput : state.typeOfOutput
     }
 }
 
@@ -494,7 +511,9 @@ const mapDispatchToProps = (dispatch) => {
       setCsvToJsonValues : setCsvToJsonValues,
       setcsvInputText : setcsvInputText,
       setjsonOutputText : setjsonOutputText,
-      setCsvToJsonFileObject : setCsvToJsonFileObject
+      setCsvToJsonFileObject : setCsvToJsonFileObject,
+      setTypeOfParsing : setTypeOfParsing,
+      setTypeOfOutput : setTypeOfOutput
     },dispatch)
 };
 
