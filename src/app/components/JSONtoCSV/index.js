@@ -2,6 +2,7 @@ import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
 import { setJsonToCSvColoumnHead, setJsonToCsvFileObject, setCSVCreated, setJsonToCsvValues, setJsonInputText, setCsvOutputText } from '../../actions/index.js';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import '../../assets/styles/jsonToCsv.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -135,25 +136,6 @@ creatDownloadLink = (TotalData,fileName)=>{
   removeAllText = ()=>{
     this.props.setJsonInputText("");
     this.props.setCsvOutputText("");
-  }
-
-
-  copyCSVClipboard = ()=>{
-
-    let copyText = this.props.csvOutputText;
-    let textArea = document.createElement("textarea");
-
-    textArea.value = copyText;
-    document.body.appendChild(textArea);
-    textArea.select();
-
-    try {
-      let successful = document.execCommand('copy');
-      let msg = successful ? 'successful' : 'unsuccessful';
-      Materialize.toast('CSV Copied to Clipboard', 2000) // 'rounded' is the class I'm applying to the toast
-    } catch (err) {
-    }
-    document.body.removeChild(textArea);
   }
 
 
@@ -291,7 +273,9 @@ creatDownloadLink = (TotalData,fileName)=>{
               <label htmlFor="showTree" className="normalText"> CSV </label>
             </div>
             <div className={"col s4 " + (this.props.csvOutputText===""?'unshow':'show')}>
-              <a class="waves-effect waves-light btn tooltipped" style={buttonStyle} data-position="bottom" data-delay="50" data-tooltip="Copy to Clipboard" onClick={this.copyCSVClipboard} ><i class="material-icons left">content_copy</i></a>
+              <CopyToClipboard text={this.props.csvOutputText}>
+                <a class="waves-effect waves-light btn" style={buttonStyle}><i class="material-icons left">content_copy</i></a>
+              </CopyToClipboard>
             </div>
             <div className="col s12">
               <br/>

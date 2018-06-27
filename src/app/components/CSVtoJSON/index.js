@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux'
 import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText } from '../../actions/index.js';
 import  csvtojson  from 'csvtojson';
 import  fileReaderStream from 'filereader-stream';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 
 import '../../assets/styles/csvToJson.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -250,23 +252,6 @@ export class CSVtoJSON extends React.Component {
       })
   }
 
-  //  copiying data to clipboard using the below function
-  copyToClipboard = ()=>{
-    let textArea = document.createElement("textarea");
-    textArea.value = this.props.jsonOutputText;
-    document.body.appendChild(textArea);
-    textArea.select();
-
-    try {
-      let successful = document.execCommand('copy');
-      let msg = successful ? 'successful' : 'unsuccessful';
-      Materialize.toast('JSON Copied to Clipboard', 2000) // 'rounded' is the class I'm applying to the toast
-    } catch (err) {
-    }
-    document.body.removeChild(textArea);
-
-  }
-
   // clearing both the divs by using this function
   removeAllText = ()=>{
     this.props.setcsvInputText("");
@@ -476,7 +461,9 @@ export class CSVtoJSON extends React.Component {
                 <label htmlFor="showTree" className="normalText"> JSON </label>
               </div>
               <div className={"col s4 " + (this.props.jsonOutputText===""?'unshow':'show')}>
-                <a class="waves-effect waves-light btn tooltipped" style={buttonStyle} data-position="bottom" data-delay="50" data-tooltip="Copy to Clipboard" onClick={this.copyToClipboard} ><i class="material-icons left">content_copy</i></a>
+                <CopyToClipboard text={this.props.jsonOutputText}>
+                  <button class="waves-effect waves-light btn " style={buttonStyle}><i class="material-icons left">content_copy</i></button>
+                </CopyToClipboard>
               </div>
               <div className="col s12">
                 <br/>
