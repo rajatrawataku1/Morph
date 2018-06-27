@@ -1,6 +1,5 @@
-import React from "react"
+import React from "react";
 import {Switch, Route} from "react-router-dom";
-import First from "./First"
 import CSVtoJSON from './CSVtoJSON/index.js';
 import JSONtoCSV from './JSONtoCSV/index.js';
 

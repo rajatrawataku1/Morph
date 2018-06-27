@@ -1,61 +1,48 @@
-import React, {PropTypes} from "react"
+import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { setColoumnHead, setJSONUploaded, setCSVCreated ,setValues, setCSVCreatedText } from '../../actions/index.js';
+import { setJsonToCSvColoumnHead, setJsonToCsvFileObject, setCSVCreated, setJsonToCsvValues, setJsonInputText, setCsvOutputText } from '../../actions/index.js';
 
+import '../../assets/styles/jsonToCsv.scss';
+import '../../assets/styles/mate_icon.scss';
 
 export class JSONtoCSV extends React.Component {
 
   constructor(props) {
     super(props)
-    this.handleFileSelectedJsonCsv = this.handleFileSelectedJsonCsv.bind(this);
-    this.processDataJsonCsv = this.processDataJsonCsv.bind(this);
-    this.loadHandlerJsonCsv = this.loadHandlerJsonCsv.bind(this);
-    this.downloadCSV = this.downloadCSV.bind(this);
-    this.creatDownloadLink = this.creatDownloadLink.bind(this);
-    this.removeAllText = this.removeAllText.bind(this);
-    this.convertTextAreatoCSV = this.convertTextAreatoCSV.bind(this);
-    this.pasetTheCSV = this.pasetTheCSV.bind(this);
-    this.copyCSVClipboard = this.copyCSVClipboard.bind(this);
   }
 
-  convertTextAreatoCSV(){
-    let textAreaString = $("#textarea3").val();
+  convertTextAreatoCSV = ()=>{
+    let textAreaString = this.props.jsonInputText;
     this.processDataJsonCsv(textAreaString,1);
   }
 
-  handleFileSelectedJsonCsv(event){
+  handleFileSelectedJsonCsv = (event)=>{
     event.stopPropagation();
     event.preventDefault();
-    this.props.setJSONUploaded(0);
-    this.props.setCSVCreated(0);
-    this.props.setCSVCreatedText(0);
-    // this.setState( {csvUploaded: 0});
-    // this.setState( {jsonCreated : 0});
 
     let files = event.target.files;
     if(files.length>0){
-      // console.log(files);
-      // console.log(files[0].name);
-      // read the file
-      $(".loaderBox").removeClass("unshow");
+      this.props.setJsonToCsvFileObject(files[0]);
+      let loaderElement = this.refs.loaderDiv;
+      loaderElement.setAttribute("style","display:block");
       let reader = new FileReader();
       reader.readAsText(files[0]);
       reader.onload = this.loadHandlerJsonCsv;
     }else{
-      console.log("No file Selected");
+      this.props.setJsonToCsvFileObject({name:""});
     }
+    this.props.setCSVCreated(0);
   }
 
-  loadHandlerJsonCsv(){
-    this.props.setJSONUploaded(1);
+  loadHandlerJsonCsv = ()=>{
+    // this.props.setJSONUploaded(1);
     // this.setState( {csvUploaded: 1});
     let json = event.target.result;
     this.processDataJsonCsv(json);
   }
 
-  processDataJsonCsv(json,typeOfRequest=0){
+  processDataJsonCsv = (json,typeOfRequest=0)=>{
 
     let getCompleteCSV = (jsonObjectMain)=>{
       return new Promise( (resolve,reject)=>{
@@ -65,28 +52,17 @@ export class JSONtoCSV extends React.Component {
 
             //  coloumnHeads check is required
             let tempColoumnHead =Object.keys(singleObject);
-            // console.log(singleObject);
-            // console.log(tempColoumnHead);
-            if( tempColoumnHead.length > this.props.columnName.length && index !=0){
+            if( tempColoumnHead.length > this.props.columnNameJsonToCsv.length && index !=0){
               let coloumnHeads = Object.keys(singleObject);
-              this.props.setColoumnHead(coloumnHeads);
+              this.props.setJsonToCSvColoumnHead(coloumnHeads);
               let StringAfterFirstRow = mainString.substr(mainString.indexOf("\n"));
-              // console.log("StringAfterFirstRow : "+StringAfterFirstRow);
               let newFirstRowString = coloumnHeads.toString();
-              // console.log("Before : "+mainString);
               mainString = newFirstRowString + StringAfterFirstRow;
-              // console.log("After : "+mainString);
-              // console.log(oldFirstRowString);
-              // console.log(newFirstRowString);
-              // console.log("Before : "+mainString);
-              // mainmainString.replace(oldFirstRowString,newFirstRowString);
-              // console.log("After : "+mainString);
-              //  will have to chanage first line
             }
 
             if(index === 0){
               let coloumnHeads = Object.keys(singleObject);
-              this.props.setColoumnHead(coloumnHeads);
+              this.props.setJsonToCSvColoumnHead(coloumnHeads);
               let oneRow = coloumnHeads.toString();
               mainString = mainString + oneRow + "\n";
             }
@@ -97,7 +73,6 @@ export class JSONtoCSV extends React.Component {
 
 
             if(jsonObjectMainLength -1 === index){
-              console.log("Resolved JSON to CSV");
               resolve(mainString);
             }
         });
@@ -114,28 +89,26 @@ export class JSONtoCSV extends React.Component {
         let jsonObjectMain = JSON.parse(json);
         getCompleteCSV(jsonObjectMain).then( (mainCSVString) =>{
 
-          this.props.setValues(mainCSVString);
-          $(".loaderBox").addClass("unshow");
+          let loaderElement = this.refs.loaderDiv;
+          loaderElement.setAttribute("style","display:none");
 
           if(typeOfRequest===1){
-            this.pasetTheCSV(mainCSVString);
-            this.props.setCSVCreatedText(1);
+            this.props.setCsvOutputText(mainCSVString);
           }else{
+            this.props.setJsonToCsvValues(mainCSVString);
             this.props.setCSVCreated(1);
           }
 
         })
 
       }catch(err){
-        console.log(err);
         alert("Wrong JSON File");
-        console.log("Wrong JSON Object");
       }
     }
 
   }
 
-creatDownloadLink(TotalData,fileName){
+creatDownloadLink = (TotalData,fileName)=>{
     let textFileAsBlob = new Blob([TotalData], { type: 'text/plain' });
     let downloadLink = document.createElement('a');
     downloadLink.download = fileName;
@@ -152,62 +125,44 @@ creatDownloadLink(TotalData,fileName){
     downloadLink.click();
   }
 
-  downloadCSV(){
+  downloadCSV = ()=>{
     if( 'Blob' in window){
       let fileName = prompt('Please enter file name to save', 'untitled.csv');
       if(fileName){
-        let dataToWrite= this.props.values;
+        let dataToWrite= this.props.jsonToCsvValues;
         this.creatDownloadLink(dataToWrite,fileName);
       }
     }
   }
 
-  removeAllText(){
-    this.props.setCSVCreatedText(0);
-    $("#textarea3").val("");
-    $("#textarea4").val("");
+  removeAllText = ()=>{
+    this.props.setJsonInputText("");
+    this.props.setCsvOutputText("");
   }
 
-  pasetTheCSV(csvMainString){
-    $("#textarea4").val(csvMainString);
-  }
 
-  copyCSVClipboard(){
-    var copyText = $("#textarea4").val();
+  copyCSVClipboard = ()=>{
 
-    var textArea = document.createElement("textarea");
-    textArea.style.position = 'fixed';
-    textArea.style.top = 0;
-    textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = 0;
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
+    let copyText = this.props.csvOutputText;
+    let textArea = document.createElement("textarea");
 
     textArea.value = copyText;
     document.body.appendChild(textArea);
     textArea.select();
 
     try {
-      var successful = document.execCommand('copy');
-      var msg = successful ? 'successful' : 'unsuccessful';
-      // console.log('Copying text command was ' + msg);
+      let successful = document.execCommand('copy');
+      let msg = successful ? 'successful' : 'unsuccessful';
+      Materialize.toast('CSV Copied to Clipboard', 2000) // 'rounded' is the class I'm applying to the toast
     } catch (err) {
-      // console.log('Oops, unable to copy');
     }
     document.body.removeChild(textArea);
   }
 
-  componentWillMount() {
-
-  }
 
   render() {
 
-    var divStyle = {
+    let divStyle = {
       height:"18rem",
       border:"none",
       outline:"none",
@@ -217,19 +172,19 @@ creatDownloadLink(TotalData,fileName){
       overflow:"scroll"
     };
 
-    var buttonStyle = {
+    let buttonStyle = {
       paddingLeft :"10px",
       paddingRight : "1px"
     }
 
-    var loaderStyle = {
+    let loaderStyle = {
       zIndex : "100"
     }
 
     return (
 
       <div className="mainApp" >
-        <div style= {loaderStyle} className="loaderBox unshow">
+        <div style= {loaderStyle} className="loaderBox unshow" ref="loaderDiv">
           <div class="preloader-wrapper big active">
           <div class="spinner-layer spinner-blue">
             <div class="circle-clipper left">
@@ -290,10 +245,10 @@ creatDownloadLink(TotalData,fileName){
                 <div className="file-field input-field">
                   <div className="btn">
                     <span>File <i class="material-icons iconMiddle">cloud_upload</i> </span>
-                    <input type="file" id="files" name="files[]" onChange={this.handleFileSelectedJsonCsv} multiple />
+                    <input type="file" id="files" name="files[]" onChange={this.handleFileSelectedJsonCsv} />
                   </div>
                   <div className="file-path-wrapper">
-                    <input className="file-path validate" type="text" placeholder="Upload your  JSON file"/>
+                    <input className="file-path validate" type="text" placeholder="Upload your  JSON file" defaultValue={this.props.fileObjectJsonToCsv.name}/>
                   </div>
                 </div>
               </div>
@@ -314,7 +269,7 @@ creatDownloadLink(TotalData,fileName){
               <br/>
               <label for="textarea3" className="normalText">Or paste your JSON here</label>
               <br/><br/>
-              <textarea id="textarea3"  style={divStyle} rows="100" cols="50"></textarea>
+              <textarea id="textarea3"  style={divStyle} rows="100" cols="50" value={this.props.jsonInputText} onChange={(event)=>{this.props.setJsonInputText(event.target.value)}}></textarea>
               <br/>
           </div>
 
@@ -341,14 +296,13 @@ creatDownloadLink(TotalData,fileName){
             <div className="col s2">
               <label for="showTree" className="normalText"> CSV </label>
             </div>
-            <div className={"col s4 " + (this.props.csvCreatedText===1?'show':'unshow')}>
+            <div className={"col s4 " + (this.props.csvOutputText===""?'unshow':'show')}>
               <a class="waves-effect waves-light btn tooltipped" style={buttonStyle} data-position="bottom" data-delay="50" data-tooltip="Copy to Clipboard" onClick={this.copyCSVClipboard} ><i class="material-icons left">content_copy</i></a>
             </div>
             <div className="col s12">
               <br/>
             </div>
-            <textarea id="textarea4"  style={divStyle} rows="100" cols="50"></textarea>
-            {/* <div  id="showTree"  style={divStyle} ></div> */}
+            <textarea id="textarea4"  style={divStyle} rows="100" cols="50" value={this.props.csvOutputText}></textarea>
             <br/>
           </div>
 
@@ -358,24 +312,26 @@ creatDownloadLink(TotalData,fileName){
   }
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state)=>{
     return {
-      columnName : state.columnName ,
-      values : state.values,
+      fileObjectJsonToCsv : state.fileObjectJsonToCsv,
+      columnNameJsonToCsv : state.columnNameJsonToCsv ,
       csvCreated : state.csvCreated,
-      jsonUploaded : state.jsonUploaded,
-      csvCreatedText : state.csvCreatedText
+      jsonToCsvValues : state.jsonToCsvValues,
+      jsonInputText:state.jsonInputText,
+      csvOutputText:state.csvOutputText,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      setColoumnHead : setColoumnHead ,
+      setJsonToCsvFileObject : setJsonToCsvFileObject,
+      setJsonToCSvColoumnHead : setJsonToCSvColoumnHead ,
       setCSVCreated : setCSVCreated,
-      setJSONUploaded : setJSONUploaded,
-      setValues : setValues,
-      setCSVCreatedText : setCSVCreatedText
+      setJsonToCsvValues : setJsonToCsvValues,
+      setJsonInputText : setJsonInputText,
+      setCsvOutputText : setCsvOutputText,
     },dispatch)
 };
 

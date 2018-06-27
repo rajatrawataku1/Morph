@@ -1,33 +1,71 @@
-export const SET_COLUMN_HEAD = 'SET_COLUMN_HEAD';
-export const SET_CSV_UPLOADED = 'SET_CSV_UPLOADED';
-export const SET_JSON_CREATED = 'SET_JSON_CREATED';
-export const SET_VALUES = 'SET_VALUES';
+export const SET_CSV_TO_JSON_FILE_OBJECT = 'SET_CSV_TO_JSON_FILE_OBJECT';
+export const SET_FILE_JSON_CREATED = 'SET_FILE_JSON_CREATED';
+export const SET_CSV_TO_JSON_VALUES = 'SET_CSV_TO_JSON_VALUES';
+export const SET_CSV_INPUT_TEXT = 'SET_CSV_INPUT_TEXT';
+export const SET_JSON_OUTPUT_TEXT = 'SET_JSON_OUTPUT_TEXT';
+
+// ############################################################
+
+export const SET_JSON_TO_CSV_FILE_OBJECT = 'SET_JSON_TO_CSV_FILE_OBJECT';
+export const SET_JSON_TO_CSV_COLUMN_HEAD = 'SET_JSON_TO_CSV_COLUMN_HEAD';
 export const SET_CSV_CREATED = 'SET_CSV_CREATED';
-export const SET_JSON_UPLOADED = 'SET_JSON_UPLOADED';
-export const SET_STATUS = 'SET_STATUS';
-export const SET_JSON_CREATED_TEXT = 'SET_JSON_CREATED_TEXT';
-export const SET_CSV_CREATED_TEXT = 'SET_CSV_CREATED_TEXT';
+export const SET_JSON_TO_CSV_VALUES  = 'SET_JSON_TO_CSV_VALUES';
+export const SET_JSON_INPUT_TEXT = 'SET_JSON_INPUT_TEXT';
+export const SET_CSV_OUTPUT_TEXT = 'SET_CSV_OUTPUT_TEXT';
 
-export function setColoumnHead (tempData){
-  return {
-    type:SET_COLUMN_HEAD,
-    data:tempData
-  }
-}
 
-export function setCSVUploaded(tempData){
+// ###############################################################
+export function setCsvToJsonFileObject(tempData){
   return {
-    type:SET_CSV_UPLOADED,
-    data:tempData
-  }
-}
-
-export function setJSONCreated(tempData){
-  return {
-      type:SET_JSON_CREATED,
+      type:SET_CSV_TO_JSON_FILE_OBJECT,
       data:tempData
   }
 }
+
+export function setfileJsonCreated(tempData){
+  return {
+      type:SET_FILE_JSON_CREATED,
+      data:tempData
+  }
+}
+
+export function setCsvToJsonValues(tempData){
+  return {
+      type:SET_CSV_TO_JSON_VALUES,
+      data:tempData
+  }
+}
+
+export function setcsvInputText(tempData){
+  return {
+      type:SET_CSV_INPUT_TEXT,
+      data:tempData
+  }
+}
+
+export function setjsonOutputText(tempData){
+  return {
+      type:SET_JSON_OUTPUT_TEXT,
+      data:tempData
+  }
+}
+
+// ##############################################################
+
+export function setJsonToCsvFileObject(tempData){
+  return {
+    type:SET_JSON_TO_CSV_FILE_OBJECT,
+    data:tempData
+  }
+}
+
+export function setJsonToCSvColoumnHead(tempData){
+  return {
+    type:SET_JSON_TO_CSV_COLUMN_HEAD,
+    data:tempData
+  }
+}
+
 
 export function setCSVCreated(tempData){
   return {
@@ -36,38 +74,31 @@ export function setCSVCreated(tempData){
   }
 }
 
-export function setJSONUploaded(tempData){
+export function setJsonToCsvValues(tempData){
   return {
-    type:SET_JSON_UPLOADED,
+    type:SET_JSON_TO_CSV_VALUES,
     data:tempData
   }
 }
 
-export function setValues(tempData){
+export function setJsonInputText(tempData){
   return {
-      type:SET_VALUES,
-      data:tempData
+    type:SET_JSON_INPUT_TEXT,
+    data:tempData
   }
 }
 
-export function setStatus(tempData){
+export function setCsvOutputText(tempData){
   return {
-      type:SET_STATUS,
-      data:tempData
-  }
-}
-
-export function setJSONCreatedText(tempData){
-  return {
-      type:SET_JSON_CREATED_TEXT,
-      data:tempData
+    type:SET_CSV_OUTPUT_TEXT,
+    data:tempData
   }
 }
 
 
-export function setCSVCreatedText(tempData){
+export function setJSONUploaded(tempData){
   return {
-      type:SET_CSV_CREATED_TEXT,
-      data:tempData
+    type:SET_JSON_UPLOADED,
+    data:tempData
   }
 }

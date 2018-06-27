@@ -1,44 +1,60 @@
-// import { combineReducers } from "redux"
-import { SET_COLUMN_HEAD, SET_CSV_UPLOADED, SET_JSON_CREATED, SET_CSV_CREATED, SET_JSON_UPLOADED, SET_VALUES, SET_STATUS,SET_JSON_CREATED_TEXT,SET_CSV_CREATED_TEXT } from '../actions/index.js';
+import { SET_CSV_TO_JSON_FILE_OBJECT,   SET_FILE_JSON_CREATED, SET_CSV_TO_JSON_VALUES,SET_CSV_INPUT_TEXT, SET_JSON_OUTPUT_TEXT } from '../actions/index.js';
+
+import { SET_JSON_TO_CSV_FILE_OBJECT, SET_JSON_TO_CSV_COLUMN_HEAD, SET_CSV_CREATED , SET_JSON_TO_CSV_VALUES, SET_JSON_INPUT_TEXT, SET_CSV_OUTPUT_TEXT } from '../actions/index.js';
 
 const initialState = {
-  columnName : [],
-  values : [],
-  csvUploaded : 0,
-  jsonCreated : 0,
+  columnNameJsonToCsv : [],
+  csvToJsonvalues : [],
+  jsonToCsvValues : "",
+  fileObject:{"name":""} ,
+  fileObjectJsonToCsv : { "name":""},
+  csvInputText:"",
+  jsonOutputText:"",
+  jsonInputText:"",
+  csvOutputText:"",
+  fileJsonCreated : 0,
   csvCreated : 0,
-  jsonUploaded : 0,
-  jsonCreatedText : 0,
-  csvCreatedText :0,
-  status:""
 }
 
-let AppFunction = (state=initialState,action) =>{
+const AppFunction = (state=initialState,action) => {
   switch (action.type) {
-    case SET_COLUMN_HEAD:
-        console.log("coloumn set");
+
+    case SET_CSV_TO_JSON_FILE_OBJECT:
         return Object.assign({},state,{
-          columnName :action.data
+          fileObject:action.data
         })
 
-    case SET_CSV_UPLOADED:
+
+    case SET_FILE_JSON_CREATED:
         return Object.assign({},state,{
-          csvUploaded : action.data
+          fileJsonCreated : action.data
         })
 
-    case SET_JSON_CREATED:
+    case SET_CSV_TO_JSON_VALUES:
         return Object.assign({},state,{
-          jsonCreated : action.data
-        })
-
-    case SET_VALUES:
-        return Object.assign({},state,{
-          values : action.data
+          csvToJsonvalues : action.data
         });
 
-    case SET_JSON_UPLOADED:
+    case SET_CSV_INPUT_TEXT:
         return Object.assign({},state,{
-          jsonUploaded:action.data
+          csvInputText:action.data
+        })
+
+    case SET_JSON_OUTPUT_TEXT:
+        return Object.assign({},state,{
+          jsonOutputText:action.data
+        })
+
+    // #######################################################
+
+    case SET_JSON_TO_CSV_FILE_OBJECT:
+        return Object.assign({},state,{
+          fileObjectJsonToCsv:action.data
+        })
+
+    case SET_JSON_TO_CSV_COLUMN_HEAD:
+        return Object.assign({},state,{
+          columnNameJsonToCsv:action.data
         })
 
     case SET_CSV_CREATED:
@@ -46,20 +62,22 @@ let AppFunction = (state=initialState,action) =>{
           csvCreated:action.data
         })
 
-    case SET_STATUS:
+    case SET_JSON_TO_CSV_VALUES:
         return Object.assign({},state,{
-          status:action.data
+          jsonToCsvValues:action.data
         })
 
-    case SET_JSON_CREATED_TEXT:
+    case SET_JSON_INPUT_TEXT:
         return Object.assign({},state,{
-          jsonCreatedText:action.data
+          jsonInputText:action.data
         })
 
-    case SET_CSV_CREATED_TEXT:
+
+    case SET_CSV_OUTPUT_TEXT:
         return Object.assign({},state,{
-          csvCreatedText:action.data
+          csvOutputText:action.data
         })
+
 
     default:
         return state;
@@ -68,7 +86,3 @@ let AppFunction = (state=initialState,action) =>{
 
 const ReducerApp = AppFunction;
 export default ReducerApp;
-
-// export default combineReducers({
-//
-// })
