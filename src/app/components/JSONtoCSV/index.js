@@ -264,7 +264,7 @@ creatDownloadLink = (TotalData,fileName)=>{
 
           <div className="col s12 l4 offset-l1 m4 offset-m1 inputDiv">
               <br/>
-              <label for="textarea3" className="normalText">Or paste your JSON here</label>
+              <label htmlFor"textarea3" className="normalText">Or paste your JSON here</label>
               <br/><br/>
               <textarea id="textarea3"  style={divStyle} rows="100" cols="50" value={this.props.jsonInputText} onChange={(event)=>{this.props.setJsonInputText(event.target.value)}}></textarea>
               <br/>
@@ -291,7 +291,7 @@ creatDownloadLink = (TotalData,fileName)=>{
           <div className="col s12 l4  m4  inputDiv">
             <br/>
             <div className="col s2">
-              <label for="showTree" className="normalText"> CSV </label>
+              <label htmlFor"showTree" className="normalText"> CSV </label>
             </div>
             <div className={"col s4 " + (this.props.csvOutputText===""?'unshow':'show')}>
               <a class="waves-effect waves-light btn tooltipped" style={buttonStyle} data-position="bottom" data-delay="50" data-tooltip="Copy to Clipboard" onClick={this.copyCSVClipboard} ><i class="material-icons left">content_copy</i></a>
