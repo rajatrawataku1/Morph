@@ -36,8 +36,6 @@ export class JSONtoCSV extends React.Component {
   }
 
   loadHandlerJsonCsv = ()=>{
-    // this.props.setJSONUploaded(1);
-    // this.setState( {csvUploaded: 1});
     let json = event.target.result;
     this.processDataJsonCsv(json);
   }
@@ -70,7 +68,6 @@ export class JSONtoCSV extends React.Component {
               let arrayOfValues = Object.values(singleObject);
               let oneRow  = arrayOfValues.toString();
               mainString = mainString + oneRow + "\n";
-
 
             if(jsonObjectMainLength -1 === index){
               resolve(mainString);
