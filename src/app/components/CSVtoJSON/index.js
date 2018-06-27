@@ -366,7 +366,7 @@ export class CSVtoJSON extends React.Component {
                        onChange={this.onParsingChoice}
                        id="test1"
                      />
-                    <label htmlFor"test1">Object value null</label>
+                    <label htmlFor="test1">Object value null</label>
                   </p>
                   <p>
                     <input class="with-gap"
@@ -376,7 +376,7 @@ export class CSVtoJSON extends React.Component {
                       checked={this.state.typeOfParsing === "Object value space"}
                       onChange={this.onParsingChoice}
                        id="test2" />
-                    <label htmlFor"test2">Object value space</label>
+                    <label htmlFor="test2">Object value space</label>
                   </p>
                 </form>
                 <br/>
@@ -394,7 +394,7 @@ export class CSVtoJSON extends React.Component {
                        onChange={this.onOutputChoice}
                        id="test3"
                      />
-                    <label htmlFor"test3">Array</label>
+                    <label htmlFor="test3">Array</label>
                   </p>
                   <p>
                     <input class="with-gap"
@@ -404,7 +404,7 @@ export class CSVtoJSON extends React.Component {
                       checked={this.state.typeOfOutput === "Output minified Array"}
                       onChange={this.onOutputChoice}
                        id="test4" />
-                    <label htmlFor"test4">Minified Array</label>
+                    <label htmlFor="test4">Minified Array</label>
                   </p>
                 </form>
                 <br/>
@@ -449,7 +449,7 @@ export class CSVtoJSON extends React.Component {
             </div>
             <div className="col s12 l4 offset-l1 m4 offset-m1 inputDiv">
                 <br/>
-                <label htmlFor"textarea1" className="normalText">Or paste your CSV here</label>
+                <label htmlFor="textarea1" className="normalText">Or paste your CSV here</label>
                 <br/><br/>
                 <textarea id="textarea1"  style={divStyle} rows="100" cols="50"  value={this.props.csvInputText} onChange={(event)=>{this.props.setcsvInputText(event.target.value)}} ></textarea>
                 <br/>
@@ -473,7 +473,7 @@ export class CSVtoJSON extends React.Component {
             <div className="col s12 l4  m4  inputDiv">
               <br/>
               <div className="col s2">
-                <label htmlFor"showTree" className="normalText"> JSON </label>
+                <label htmlFor="showTree" className="normalText"> JSON </label>
               </div>
               <div className={"col s4 " + (this.props.jsonOutputText===""?'unshow':'show')}>
                 <a class="waves-effect waves-light btn tooltipped" style={buttonStyle} data-position="bottom" data-delay="50" data-tooltip="Copy to Clipboard" onClick={this.copyToClipboard} ><i class="material-icons left">content_copy</i></a>
