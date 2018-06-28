@@ -125,17 +125,19 @@ export class CSVtoJSON extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let files = event.target.files;
-
-    if(this.checkFileType(files[0].name)){
-      if(files.length > 0){
+    if(files.length > 0){
+      if(this.checkFileType(files[0].name)){
         this.props.setCsvToJsonFileObject(files[0]);
+        this.props.setfileJsonCreated(0);
       }else{
-        this.props.setCsvToJsonFileObject({name:""});
+        // this.props.setCsvToJsonFileObject({name:""});
+        alert("Wrong file Selected");
       }
-      this.props.setfileJsonCreated(0);
+
     }else{
-      alert("Wrong file Selected");
+      console.log("Do nothing");
     }
+
   }
 
   // used for creating the json tree which is shown in the div with ID showTree
