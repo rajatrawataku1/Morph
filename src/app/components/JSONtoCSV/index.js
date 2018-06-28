@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
 import { setJsonToCSvColoumnHead, setJsonToCsvFileObject, setCSVCreated, setJsonToCsvValues, setJsonInputText, setCsvOutputText } from '../../actions/index.js';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import DownloadLink from "react-download-link";
 
 import '../../assets/styles/jsonToCsv.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -35,21 +36,24 @@ export class JSONtoCSV extends React.Component {
     event.preventDefault();
 
     let files = event.target.files;
-    if(this.checkFileType(files[0].name)){
-      if(files.length>0){
+
+    if(files.length>0){
+      if(this.checkFileType(files[0].name)){
         this.props.setJsonToCsvFileObject(files[0]);
         let loaderElement = this.refs.loaderDiv;
         loaderElement.setAttribute("style","display:block");
         let reader = new FileReader();
         reader.readAsText(files[0]);
         reader.onload = this.loadHandlerJsonCsv;
+        this.props.setCSVCreated(0);
       }else{
-        this.props.setJsonToCsvFileObject({name:""});
+        alert("Wrong file Selected");
       }
-      this.props.setCSVCreated(0);
     }else{
-      alert("Wrong file Selected");
+      console.log("Do nothing");
+      // this.props.setJsonToCsvFileObject({name:""});
     }
+
   }
 
   loadHandlerJsonCsv = ()=>{
@@ -141,16 +145,6 @@ creatDownloadLink = (TotalData,fileName)=>{
     downloadLink.click();
   }
 
-  downloadCSV = ()=>{
-    if( 'Blob' in window){
-      let fileName = prompt('Please enter file name to save', 'untitled.csv');
-      if(fileName){
-        let dataToWrite= this.props.jsonToCsvValues;
-        this.creatDownloadLink(dataToWrite,fileName);
-      }
-    }
-  }
-
   removeAllText = ()=>{
     this.props.setJsonInputText("");
     this.props.setCsvOutputText("");
@@ -176,6 +170,13 @@ creatDownloadLink = (TotalData,fileName)=>{
 
     let loaderStyle = {
       zIndex : "100"
+    }
+
+    let downloadLinkStyle={
+      margin:"none",
+      color:"white",
+      textDecoration :"none",
+      cursor :"pointer"
     }
 
     return (
@@ -245,7 +246,7 @@ creatDownloadLink = (TotalData,fileName)=>{
                     <input type="file" id="files" name="files[]" onChange={this.handleFileSelectedJsonCsv} />
                   </div>
                   <div className="file-path-wrapper">
-                    <input className="file-path validate" type="text" placeholder="Upload your  JSON file" defaultValue={this.props.fileObjectJsonToCsv.name}/>
+                    <input className="file-path validate" type="text" placeholder="Upload your  JSON file" value={this.props.fileObjectJsonToCsv.name}/>
                   </div>
                 </div>
               </div>
@@ -254,7 +255,8 @@ creatDownloadLink = (TotalData,fileName)=>{
           <div className={"col l3 offset-l1 m3 offset-m1 s12 " +(this.props.csvCreated===1?'show':'unshow')}>
             <br/><br/>
             <center>
-            <a className="waves-effect waves-light btn" onClick={this.downloadCSV}><i className="material-icons right">cloud_download</i>Download CSV</a>
+              <DownloadLink  style={downloadLinkStyle} label="Download CSV" className="waves-effect waves-light btn" filename="sample.csv"  exportFile={() => this.props.jsonToCsvValues}>
+              </DownloadLink>
             </center>
           </div>
 

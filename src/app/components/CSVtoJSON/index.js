@@ -5,6 +5,7 @@ import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcs
 import  csvtojson  from 'csvtojson';
 import  fileReaderStream from 'filereader-stream';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import DownloadLink from "react-download-link";
 
 import '../../assets/styles/csvToJson.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -77,7 +78,9 @@ export class CSVtoJSON extends React.Component {
       //  when the whole csv array is traversed then this is called
       let onComplete = ()=>{
         //  setting the value array of the store
-        this.props.setCsvToJsonValues(completeObject);
+
+        let TotalData = this.createOutputType(completeObject);
+        this.props.setCsvToJsonValues(TotalData);
         //  removing the loader now
         let loaderElement = this.refs.loaderDiv;
         loaderElement.setAttribute("style","display:none");
@@ -171,35 +174,19 @@ export class CSVtoJSON extends React.Component {
       downloadLink.click();
   }
 
-  //  this function will promp user to input file name
-  downloadJSON = ()=>{
-    if( 'Blob' in window){
-      let fileName = prompt('Please enter file name to save', 'Untitled.json');
-      if(fileName){
-        let dataToWrite= this.props.csvToJsonvalues;
-        if(dataToWrite.length === 0){
-          // if the file is empty we directly write to it
-          let TotalData="[]";
-          this.creatDownloadLink(TotalData,fileName);
-        }else{
-          //  we create the outpute text according the selection of the user
-          this.createOutputType(dataToWrite,fileName);
-        }
-      }
-    }
-  }
-
   // function creates the TotalData according to the user option minified or an array of object
   createOutputType = (dataToWrite,fileName)=>{
       let value = this.getCurrrentOutputMethod();
       if(value){
         //  the output will be an array
         let TotalData=JSON.stringify(dataToWrite,null,4);
-        this.creatDownloadLink(TotalData,fileName);
+        return TotalData;
+        // this.creatDownloadLink(TotalData,fileName);
       }else{
         //  the output will be a minified version just directly use the native function
         let TotalData=JSON.stringify(dataToWrite);
-        this.creatDownloadLink(TotalData,fileName);
+        return TotalData;
+        // this.creatDownloadLink(TotalData,fileName);
       }
   }
 
@@ -294,6 +281,14 @@ export class CSVtoJSON extends React.Component {
     let loaderStyle = {
       zIndex : "100"
     }
+
+    let downloadLinkStyle={
+      margin:"none",
+      color:"white",
+      textDecoration :"none",
+      cursor :"pointer"
+    }
+
 
       return(
         <div className="mainApp" >
@@ -423,7 +418,7 @@ export class CSVtoJSON extends React.Component {
                         <input type="file" id="files" name="files[]" onChange={this.handleFileSelectedCsvJson} value={this.file} />
                       </div>
                       <div className="file-path-wrapper">
-                        <input className="file-path" type="text" placeholder="Upload your csv file" defaultValue={this.props.fileObject.name} />
+                        <input className="file-path" type="text" placeholder="Upload your csv file" value={this.props.fileObject.name} />
                       </div>
                     </div>
                   </form>
@@ -440,7 +435,8 @@ export class CSVtoJSON extends React.Component {
             <div className={"col l3  m3 offset-m1 s12 " +(this.props.fileJsonCreated===1?'show':'unshow')}>
               <br/><br/>
               <center>
-              <a className="waves-effect waves-light btn" onClick={this.downloadJSON}><i className="material-icons right">cloud_download</i>Download JSON</a>
+                <DownloadLink  style={downloadLinkStyle} label="Download JSON" className="waves-effect waves-light btn" filename="sample.json"  exportFile={() => this.props.csvToJsonvalues}>
+                </DownloadLink>
               </center>
             </div>
 
