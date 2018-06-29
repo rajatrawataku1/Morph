@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
-import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText, setTypeOfParsing, setTypeOfOutput, setLoaderStatus } from '../../actions/index.js';
+import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText, setTypeOfParsing, setTypeOfOutput, setLoaderStatus, converterCsvToJson} from '../../actions/index.js';
 import  csvtojson  from 'csvtojson';
 import  fileReaderStream from 'filereader-stream';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -49,41 +49,61 @@ export class CSVtoJSON extends React.Component {
       let readStream = fileReaderStream(fileObject);
       //  if there is any error in the csv or we cant complete traverse the csv array then it is called
 
-      let onError = (e)=>{
-        this.props.setLoaderStatus("unshow");
-          alert("Wrong CSV FILE");
-      }
+      converterCsvToJson(readStream,currentState,(completeObject)=>{
+        console.log(completeObject);
 
-      //  when the whole csv array is traversed then this is called
-      let onComplete = ()=>{
+        if(completeObject.length>0){
 
-        let TotalData = this.createOutputType(completeObject);
-        this.props.setCsvToJsonValues(TotalData);
-        //  removing the loader now
-        this.props.setLoaderStatus("unshow");
-        //  setting the store variable that json is created
-        this.props.setfileJsonCreated(1);
-      }
+          let TotalData = this.createOutputType(completeObject);
+          this.props.setCsvToJsonValues(TotalData);
+          //  removing the loader now
+          this.props.setLoaderStatus("unshow");
+          //  setting the store variable that json is created
+          this.props.setfileJsonCreated(1);
+
+        }else{
+          this.props.setLoaderStatus("unshow");
+            alert("Wrong CSV FILE");
+          // error
+        }
+      });
+      // console.log(result);
+
+      // let onError = (e)=>{
+      //   this.props.setLoaderStatus("unshow");
+      //     alert("Wrong CSV FILE");
+      // }
+      //
+      // //  when the whole csv array is traversed then this is called
+      // let onComplete = ()=>{
+      //
+      //   let TotalData = this.createOutputType(completeObject);
+      //   this.props.setCsvToJsonValues(TotalData);
+      //   //  removing the loader now
+      //   this.props.setLoaderStatus("unshow");
+      //   //  setting the store variable that json is created
+      //   this.props.setfileJsonCreated(1);
+      // }
 
       //  libraty function which reads every line from csv and give correspodig json
-      csvtojson().fromStream(readStream)
-        .subscribe((json)=>{
-          //  comparing the current state if its 1 then change the empty values to null
-          //  if its value then in the output file the space will be shown for the values
-
-          if(currentState){
-            let keysArray = Object.keys(json);
-            keysArray.forEach( (key)=>{
-              if (json[key]===""){
-                json[key]=null;
-              }
-            })
-            completeObject.push(json);
-          }else{
-            completeObject.push(json);
-          }
-
-        },onError,onComplete);
+      // csvtojson().fromStream(readStream)
+      //   .subscribe((json)=>{
+      //     //  comparing the current state if its 1 then change the empty values to null
+      //     //  if its value then in the output file the space will be shown for the values
+      //
+      //     if(currentState){
+      //       let keysArray = Object.keys(json);
+      //       keysArray.forEach( (key)=>{
+      //         if (json[key]===""){
+      //           json[key]=null;
+      //         }
+      //       })
+      //       completeObject.push(json);
+      //     }else{
+      //       completeObject.push(json);
+      //     }
+      //
+      //   },onError,onComplete);
     }
   }
 

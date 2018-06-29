@@ -19,6 +19,9 @@ export const SET_CSV_OUTPUT_TEXT = 'SET_CSV_OUTPUT_TEXT';
 // ###############################################################
 export const SET_LOADER_STATUS ='SET_LOADER_STATUS';
 
+import  csvtojson  from 'csvtojson';
+
+
 export function setCsvToJsonFileObject(tempData){
   return {
       type:SET_CSV_TO_JSON_FILE_OBJECT,
@@ -114,7 +117,6 @@ export function setCsvOutputText(tempData){
   }
 }
 
-
 export function setJSONUploaded(tempData){
   return {
     type:SET_JSON_UPLOADED,
@@ -129,4 +131,38 @@ export function setLoaderStatus(tempData){
     type:SET_LOADER_STATUS,
     data:tempData
   }
+}
+
+// ##############################
+
+export function converterCsvToJson(readStream,currentState,callback){
+
+  let completeObject =[];
+
+  let onError = (e)=>{
+    callback ([]);
+  }
+
+  //  when the whole csv array is traversed then this is called
+  let onComplete = ()=>{
+    console.log(completeObject);
+    callback(completeObject);
+  }
+
+  csvtojson().fromStream(readStream)
+    .subscribe((json)=>{
+      if(currentState){
+        let keysArray = Object.keys(json);
+        keysArray.forEach( (key)=>{
+          if (json[key]===""){
+            json[key]=null;
+          }
+        })
+        completeObject.push(json);
+      }else{
+        completeObject.push(json);
+      }
+
+    },onError,onComplete);
+
 }

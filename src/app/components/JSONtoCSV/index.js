@@ -124,23 +124,6 @@ export class JSONtoCSV extends React.Component {
 
   }
 
-creatDownloadLink = (TotalData,fileName)=>{
-    let textFileAsBlob = new Blob([TotalData], { type: 'text/plain' });
-    let downloadLink = document.createElement('a');
-    downloadLink.download = fileName;
-    downloadLink.innerHTML = 'Download File';
-    if ('webkitURL' in window) {
-      // Chrome allows the link to be clicked without actually adding it to the DOM.
-      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-    } else {
-      // Firefox requires the link to be added to the DOM before it can be clicked.
-      downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-    }
-    downloadLink.click();
-  }
-
   removeAllText = ()=>{
     this.props.setJsonInputText("");
     this.props.setCsvOutputText("");
