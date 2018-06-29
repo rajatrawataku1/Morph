@@ -1,11 +1,12 @@
 import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
-import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText, setTypeOfParsing, setTypeOfOutput } from '../../actions/index.js';
+import { setCsvToJsonFileObject,  setfileJsonCreated,  setCsvToJsonValues, setcsvInputText,  setjsonOutputText, setTypeOfParsing, setTypeOfOutput, setLoaderStatus } from '../../actions/index.js';
 import  csvtojson  from 'csvtojson';
 import  fileReaderStream from 'filereader-stream';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import DownloadLink from "react-download-link";
+import Loader from "../LoaderComponent/index.js";
 
 import '../../assets/styles/csvToJson.scss';
 import '../../assets/styles/mate_icon.scss';
@@ -19,7 +20,7 @@ export class CSVtoJSON extends React.Component {
   // change the parsing choice whehter null or space
   onParsingChoice = (event)=>{
     let value = event.currentTarget.value;
-    this.props.setTypeOfParsing(value);
+    this.props.setTypeOfParsing(parseInt(value));
     this.props.setfileJsonCreated(0);
     this.props.setjsonOutputText("");
   }
@@ -27,27 +28,9 @@ export class CSVtoJSON extends React.Component {
   //  changing the type of output array or minified version
   onOutputChoice = (event)=>{
     let value = event.currentTarget.value;
-    this.props.setTypeOfOutput(value);
+    this.props.setTypeOfOutput(parseInt(value));
     this.props.setfileJsonCreated(0);
     this.props.setjsonOutputText("");
-  }
-
-  //  this function is used to retrieve the value of type of parsing
-  getCurrrentParsingMethod = ()=>{
-    if(this.props.typeOfParsing === "Object value null"){
-      return 1;
-    }else{
-      return 0;
-    }
-  }
-
-  //  this function is used to retrive the value of type of output required
-  getCurrrentOutputMethod = () =>{
-    if(this.props.typeOfOutput === "Output Array"){
-      return 1;
-    }else{
-      return 0;
-    }
   }
 
   //  this is the actual function which is convertin the file selected to json
@@ -58,32 +41,26 @@ export class CSVtoJSON extends React.Component {
       alert("No file Chosen");
     }else{
 
-      //  show the loader now
-      let loaderElement = this.refs.loaderDiv;
-      loaderElement.setAttribute("style","display:block");
+      this.props.setLoaderStatus("show");
       let completeObject =[];
-      let currentState = this.getCurrrentParsingMethod();
+      let currentState = this.props.typeOfParsing;
 
       //  conerting the file object into file stream object
       let readStream = fileReaderStream(fileObject);
-
       //  if there is any error in the csv or we cant complete traverse the csv array then it is called
 
       let onError = (e)=>{
-        let loaderElement = this.refs.loaderDiv;
-        loaderElement.setAttribute("style","display:none");
+        this.props.setLoaderStatus("unshow");
           alert("Wrong CSV FILE");
       }
 
       //  when the whole csv array is traversed then this is called
       let onComplete = ()=>{
-        //  setting the value array of the store
 
         let TotalData = this.createOutputType(completeObject);
         this.props.setCsvToJsonValues(TotalData);
         //  removing the loader now
-        let loaderElement = this.refs.loaderDiv;
-        loaderElement.setAttribute("style","display:none");
+        this.props.setLoaderStatus("unshow");
         //  setting the store variable that json is created
         this.props.setfileJsonCreated(1);
       }
@@ -130,7 +107,6 @@ export class CSVtoJSON extends React.Component {
         this.props.setCsvToJsonFileObject(files[0]);
         this.props.setfileJsonCreated(0);
       }else{
-        // this.props.setCsvToJsonFileObject({name:""});
         alert("Wrong file Selected");
       }
 
@@ -143,7 +119,7 @@ export class CSVtoJSON extends React.Component {
   // used for creating the json tree which is shown in the div with ID showTree
   createTheJsonText = (completeObject)=>{
 
-    let value = this.getCurrrentOutputMethod();
+    let value = this.props.typeOfOutput;
     if(value){
       //  the output will be an array
       let TotalData=JSON.stringify(completeObject,null,4);
@@ -159,36 +135,17 @@ export class CSVtoJSON extends React.Component {
   //  this creates the downlodable link its given the two Paramter
   //  TotalData which is the full string and fileName whih will be downloaded
 
-  creatDownloadLink = (TotalData,fileName) =>{
-      let textFileAsBlob = new Blob([TotalData], { type: 'text/plain' });
-      let downloadLink = document.createElement('a');
-      downloadLink.download = fileName;
-      downloadLink.innerHTML = 'Download File';
-      if ('webkitURL' in window) {
-        // Chrome allows the link to be clicked without actually adding it to the DOM.
-        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-      } else {
-        // Firefox requires the link to be added to the DOM before it can be clicked.
-        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
-        downloadLink.style.display = 'none';
-        document.body.appendChild(downloadLink);
-      }
-      downloadLink.click();
-  }
-
-  // function creates the TotalData according to the user option minified or an array of object
+    // function creates the TotalData according to the user option minified or an array of object
   createOutputType = (dataToWrite,fileName)=>{
-      let value = this.getCurrrentOutputMethod();
+      let value = this.props.typeOfOutput;
       if(value){
         //  the output will be an array
         let TotalData=JSON.stringify(dataToWrite,null,4);
         return TotalData;
-        // this.creatDownloadLink(TotalData,fileName);
       }else{
         //  the output will be a minified version just directly use the native function
         let TotalData=JSON.stringify(dataToWrite);
         return TotalData;
-        // this.creatDownloadLink(TotalData,fileName);
       }
   }
 
@@ -207,7 +164,7 @@ export class CSVtoJSON extends React.Component {
       .fromString(textAreaString)
       .then((csvRow)=>{
         let ColoumnHead = csvRow[0];
-        let  currentState = this.getCurrrentParsingMethod();
+        let currentState = this.props.typeOfParsing;
         csvRow.shift();
 
        let getSingleObject = (sampleArray)=>{
@@ -280,9 +237,6 @@ export class CSVtoJSON extends React.Component {
       paddingRight : "1px"
     }
 
-    let loaderStyle = {
-      zIndex : "100"
-    }
 
     let downloadLinkStyle={
       margin:"none",
@@ -291,52 +245,10 @@ export class CSVtoJSON extends React.Component {
       cursor :"pointer"
     }
 
-
       return(
         <div className="mainApp" >
-          <div style={loaderStyle} className="loaderBox unshow" ref="loaderDiv" >
-            <div className="preloader-wrapper big active">
-            <div className="spinner-layer spinner-blue">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
-              </div>
-            </div>
 
-            <div className="spinner-layer spinner-red">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
-              </div>
-            </div>
-
-            <div className="spinner-layer spinner-yellow">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
-              </div>
-            </div>
-
-            <div className="spinner-layer spinner-green">
-              <div className="circle-clipper left">
-                <div className="circle"></div>
-              </div><div className="gap-patch">
-                <div className="circle"></div>
-              </div><div className="circle-clipper right">
-                <div className="circle"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <Loader/>
 
           <div className="row">
             <div className="col s12">
@@ -358,8 +270,8 @@ export class CSVtoJSON extends React.Component {
                     <input class="with-gap"
                        type="radio"
                        name="group1"
-                       value="Object value null"
-                       checked={this.props.typeOfParsing === "Object value null"}
+                       value="1"
+                       checked={this.props.typeOfParsing === 1}
                        onChange={this.onParsingChoice}
                        id="test1"
                      />
@@ -369,8 +281,8 @@ export class CSVtoJSON extends React.Component {
                     <input class="with-gap"
                       name="group1"
                       type="radio"
-                      value="Object value space"
-                      checked={this.props.typeOfParsing === "Object value space"}
+                      value="0"
+                      checked={this.props.typeOfParsing === 0}
                       onChange={this.onParsingChoice}
                        id="test2" />
                     <label htmlFor="test2">Object value space</label>
@@ -386,8 +298,8 @@ export class CSVtoJSON extends React.Component {
                     <input class="with-gap"
                        type="radio"
                        name="group2"
-                       value="Output Array"
-                       checked={this.props.typeOfOutput === "Output Array"}
+                       value="1"
+                       checked={this.props.typeOfOutput === 1}
                        onChange={this.onOutputChoice}
                        id="test3"
                      />
@@ -397,8 +309,8 @@ export class CSVtoJSON extends React.Component {
                     <input class="with-gap"
                       name="group2"
                       type="radio"
-                      value="Output minified Array"
-                      checked={this.props.typeOfOutput === "Output minified Array"}
+                      value="0"
+                      checked={this.props.typeOfOutput === 0}
                       onChange={this.onOutputChoice}
                        id="test4" />
                     <label htmlFor="test4">Minified Array</label>
@@ -491,28 +403,38 @@ export class CSVtoJSON extends React.Component {
 }
 
 const mapStateToProps = (state)=> {
-    return {
-      csvToJsonvalues : state.csvToJsonvalues,
-      fileJsonCreated : state.fileJsonCreated,
-      fileObject : state.fileObject,
-      csvInputText : state.csvInputText,
-      jsonOutputText : state.jsonOutputText,
-      typeOfParsing : state.typeOfParsing,
-      typeOfOutput : state.typeOfOutput
-    }
+  const {
+    csvToJsonvalues,
+    fileJsonCreated,
+    fileObject,
+    csvInputText,
+    jsonOutputText,
+    typeOfParsing,
+    typeOfOutput
+  } = state
+
+  return {
+    csvToJsonvalues,
+    fileJsonCreated,
+    fileObject,
+    csvInputText,
+    jsonOutputText,
+    typeOfParsing,
+    typeOfOutput
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      setfileJsonCreated : setfileJsonCreated,
-      setCsvToJsonValues : setCsvToJsonValues,
-      setcsvInputText : setcsvInputText,
-      setjsonOutputText : setjsonOutputText,
-      setCsvToJsonFileObject : setCsvToJsonFileObject,
-      setTypeOfParsing : setTypeOfParsing,
-      setTypeOfOutput : setTypeOfOutput
-    },dispatch)
+  return bindActionCreators({
+    setfileJsonCreated,
+    setCsvToJsonValues,
+    setcsvInputText,
+    setjsonOutputText,
+    setCsvToJsonFileObject,
+    setTypeOfParsing,
+    setTypeOfOutput,
+    setLoaderStatus
+  }, dispatch)
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(CSVtoJSON);

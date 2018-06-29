@@ -1,12 +1,12 @@
 import React, { PropTypes } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
-import { setJsonToCSvColoumnHead, setJsonToCsvFileObject, setCSVCreated, setJsonToCsvValues, setJsonInputText, setCsvOutputText } from '../../actions/index.js';
+import { setJsonToCSvColoumnHead, setJsonToCsvFileObject, setCSVCreated, setJsonToCsvValues, setJsonInputText, setCsvOutputText, setLoaderStatus } from '../../actions/index.js';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import DownloadLink from "react-download-link";
-
 import '../../assets/styles/jsonToCsv.scss';
 import '../../assets/styles/mate_icon.scss';
+import Loader from "../LoaderComponent/index.js";
 
 export class JSONtoCSV extends React.Component {
 
@@ -40,8 +40,7 @@ export class JSONtoCSV extends React.Component {
     if(files.length>0){
       if(this.checkFileType(files[0].name)){
         this.props.setJsonToCsvFileObject(files[0]);
-        let loaderElement = this.refs.loaderDiv;
-        loaderElement.setAttribute("style","display:block");
+        this.props.setLoaderStatus("show")
         let reader = new FileReader();
         reader.readAsText(files[0]);
         reader.onload = this.loadHandlerJsonCsv;
@@ -51,7 +50,6 @@ export class JSONtoCSV extends React.Component {
       }
     }else{
       console.log("Do nothing");
-      // this.props.setJsonToCsvFileObject({name:""});
     }
 
   }
@@ -107,8 +105,7 @@ export class JSONtoCSV extends React.Component {
         let jsonObjectMain = JSON.parse(json);
         getCompleteCSV(jsonObjectMain).then( (mainCSVString) =>{
 
-          let loaderElement = this.refs.loaderDiv;
-          loaderElement.setAttribute("style","display:none");
+          this.props.setLoaderStatus("unshow")
 
           if(typeOfRequest===1){
             this.props.setCsvOutputText(mainCSVString);
@@ -120,8 +117,7 @@ export class JSONtoCSV extends React.Component {
         })
 
       }catch(err){
-        let loaderElement = this.refs.loaderDiv;
-        loaderElement.setAttribute("style","display:none");
+        this.props.setLoaderStatus("unshow")
         alert("Wrong JSON File");
       }
     }
@@ -168,9 +164,6 @@ creatDownloadLink = (TotalData,fileName)=>{
       paddingRight : "1px"
     }
 
-    let loaderStyle = {
-      zIndex : "100"
-    }
 
     let downloadLinkStyle={
       margin:"none",
@@ -182,49 +175,7 @@ creatDownloadLink = (TotalData,fileName)=>{
     return (
 
       <div className="mainApp" >
-        <div style= {loaderStyle} className="loaderBox unshow" ref="loaderDiv">
-          <div class="preloader-wrapper big active">
-          <div class="spinner-layer spinner-blue">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-red">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-yellow">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-green">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Loader/>
 
         <div className="row">
           <div className="col s12">
@@ -311,25 +262,36 @@ creatDownloadLink = (TotalData,fileName)=>{
 }
 
 const mapStateToProps = (state)=>{
-    return {
-      fileObjectJsonToCsv : state.fileObjectJsonToCsv,
-      columnNameJsonToCsv : state.columnNameJsonToCsv ,
-      csvCreated : state.csvCreated,
-      jsonToCsvValues : state.jsonToCsvValues,
-      jsonInputText:state.jsonInputText,
-      csvOutputText:state.csvOutputText,
-    }
+
+  const {
+    fileObjectJsonToCsv,
+    columnNameJsonToCsv ,
+    csvCreated ,
+    jsonToCsvValues ,
+    jsonInputText,
+    csvOutputText,
+  }=state;
+
+  return {
+    fileObjectJsonToCsv,
+    columnNameJsonToCsv ,
+    csvCreated ,
+    jsonToCsvValues ,
+    jsonInputText,
+    csvOutputText,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
-      setJsonToCsvFileObject : setJsonToCsvFileObject,
-      setJsonToCSvColoumnHead : setJsonToCSvColoumnHead ,
-      setCSVCreated : setCSVCreated,
-      setJsonToCsvValues : setJsonToCsvValues,
-      setJsonInputText : setJsonInputText,
-      setCsvOutputText : setCsvOutputText,
+      setJsonToCsvFileObject ,
+      setJsonToCSvColoumnHead ,
+      setCSVCreated ,
+      setJsonToCsvValues ,
+      setJsonInputText ,
+      setCsvOutputText ,
+      setLoaderStatus
     },dispatch)
 };
 

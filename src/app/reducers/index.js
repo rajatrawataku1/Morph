@@ -1,11 +1,12 @@
 import { SET_CSV_TO_JSON_FILE_OBJECT,   SET_FILE_JSON_CREATED, SET_CSV_TO_JSON_VALUES,SET_CSV_INPUT_TEXT, SET_JSON_OUTPUT_TEXT, SET_TYPE_OF_PARSING, SET_TYPE_OF_OUTPUT} from '../actions/index.js';
 import { SET_JSON_TO_CSV_FILE_OBJECT, SET_JSON_TO_CSV_COLUMN_HEAD, SET_CSV_CREATED , SET_JSON_TO_CSV_VALUES, SET_JSON_INPUT_TEXT, SET_CSV_OUTPUT_TEXT } from '../actions/index.js';
+import { SET_LOADER_STATUS } from '../actions/index.js';
 
 const initialState = {
   columnNameJsonToCsv : [],
   csvToJsonvalues : [],
-  typeOfParsing:"Object value null",
-  typeOfOutput:"Output Array",
+  typeOfParsing:1,
+  typeOfOutput:1,
   jsonToCsvValues : "",
   fileObject:{"name":""} ,
   fileObjectJsonToCsv : { "name":""},
@@ -15,6 +16,7 @@ const initialState = {
   csvOutputText:"",
   fileJsonCreated : 0,
   csvCreated : 0,
+  status:"unshow"
 }
 
 const AppFunction = (state=initialState,action) => {
@@ -89,6 +91,12 @@ const AppFunction = (state=initialState,action) => {
           csvOutputText:action.data
         })
 
+// ################################################
+
+    case SET_LOADER_STATUS:
+      return Object.assign({},state,{
+        status:action.data
+      })
 
     default:
         return state;

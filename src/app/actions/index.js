@@ -17,6 +17,8 @@ export const SET_CSV_OUTPUT_TEXT = 'SET_CSV_OUTPUT_TEXT';
 
 
 // ###############################################################
+export const SET_LOADER_STATUS ='SET_LOADER_STATUS';
+
 export function setCsvToJsonFileObject(tempData){
   return {
       type:SET_CSV_TO_JSON_FILE_OBJECT,
@@ -116,6 +118,15 @@ export function setCsvOutputText(tempData){
 export function setJSONUploaded(tempData){
   return {
     type:SET_JSON_UPLOADED,
+    data:tempData
+  }
+}
+
+// ###########################
+
+export function setLoaderStatus(tempData){
+  return {
+    type:SET_LOADER_STATUS,
     data:tempData
   }
 }
