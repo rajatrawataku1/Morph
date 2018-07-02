@@ -145,7 +145,6 @@ export function converterCsvToJson(readStream,currentState,callback){
 
   //  when the whole csv array is traversed then this is called
   let onComplete = ()=>{
-    console.log(completeObject);
     callback(completeObject);
   }
 

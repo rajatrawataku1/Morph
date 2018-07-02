@@ -189,7 +189,7 @@ export class JSONtoCSV extends React.Component {
           <div className={"col l3 offset-l1 m3 offset-m1 s12 " +(this.props.csvCreated===1?'show':'unshow')}>
             <br/><br/>
             <center>
-              <DownloadLink  style={downloadLinkStyle} label="Download CSV" className="waves-effect waves-light btn" filename="sample.csv"  exportFile={() => this.props.jsonToCsvValues}>
+              <DownloadLink  style={downloadLinkStyle} label="Download CSV" className="waves-effect waves-light btn" filename={this.props.fileObjectJsonToCsv.name.split(".json")[0]+".csv"}  exportFile={() => this.props.jsonToCsvValues}>
               </DownloadLink>
             </center>
           </div>

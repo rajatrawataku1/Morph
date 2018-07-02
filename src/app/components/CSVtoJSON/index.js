@@ -50,7 +50,6 @@ export class CSVtoJSON extends React.Component {
       //  if there is any error in the csv or we cant complete traverse the csv array then it is called
 
       converterCsvToJson(readStream,currentState,(completeObject)=>{
-        console.log(completeObject);
 
         if(completeObject.length>0){
 
@@ -67,43 +66,6 @@ export class CSVtoJSON extends React.Component {
           // error
         }
       });
-      // console.log(result);
-
-      // let onError = (e)=>{
-      //   this.props.setLoaderStatus("unshow");
-      //     alert("Wrong CSV FILE");
-      // }
-      //
-      // //  when the whole csv array is traversed then this is called
-      // let onComplete = ()=>{
-      //
-      //   let TotalData = this.createOutputType(completeObject);
-      //   this.props.setCsvToJsonValues(TotalData);
-      //   //  removing the loader now
-      //   this.props.setLoaderStatus("unshow");
-      //   //  setting the store variable that json is created
-      //   this.props.setfileJsonCreated(1);
-      // }
-
-      //  libraty function which reads every line from csv and give correspodig json
-      // csvtojson().fromStream(readStream)
-      //   .subscribe((json)=>{
-      //     //  comparing the current state if its 1 then change the empty values to null
-      //     //  if its value then in the output file the space will be shown for the values
-      //
-      //     if(currentState){
-      //       let keysArray = Object.keys(json);
-      //       keysArray.forEach( (key)=>{
-      //         if (json[key]===""){
-      //           json[key]=null;
-      //         }
-      //       })
-      //       completeObject.push(json);
-      //     }else{
-      //       completeObject.push(json);
-      //     }
-      //
-      //   },onError,onComplete);
     }
   }
 
@@ -265,6 +227,10 @@ export class CSVtoJSON extends React.Component {
       cursor :"pointer"
     }
 
+    let heyDoIt ={
+      marginLeft :"10px"
+    }
+
       return(
         <div className="mainApp" >
 
@@ -341,10 +307,10 @@ export class CSVtoJSON extends React.Component {
 
             </div>
 
-            <div className="col s12 l3 offset-l1 m4 inputDiv">
+            <div className="col s12 l4 offset-l2   inputDiv">
               <div className="row">
                 <div className="col s12"><br/></div>
-                <div className="col s12 fileBox">
+                <div className="col l7  m5 s12 fileBox">
                   <form action="#" id="formInputFile">
                     <div className="file-field input-field">
                       <div className="btn">
@@ -352,27 +318,29 @@ export class CSVtoJSON extends React.Component {
                         <input type="file" id="files" name="files[]" onChange={this.handleFileSelectedCsvJson} value={this.file} />
                       </div>
                       <div className="file-path-wrapper">
-                        <input className="file-path" type="text" placeholder="Upload your csv file" value={this.props.fileObject.name} />
+                        <input className="file-path" type="text" placeholder="Upload csv" value={this.props.fileObject.name} />
                       </div>
                     </div>
                   </form>
                 </div>
+
+                <div className={"col l5 s12  m5 " + (this.props.fileJsonCreated===0?'show':'unshow')}>
+                  <br/>
+                  <center>
+                  <a className="waves-effect waves-light btn" onClick={this.convertToJSON}>Convert</a>
+                  </center>
+                </div>
+                <div className={"col l5 s12 m5 " +(this.props.fileJsonCreated===1?'show':'unshow')}>
+                  <br/>
+                  <center>
+                    <DownloadLink  style={downloadLinkStyle} label="Download JSON" className="waves-effect waves-light btn" filename={this.props.fileObject.name.split(".csv")[0]+".json"}  exportFile={() => this.props.csvToJsonvalues}>
+                    </DownloadLink>
+                  </center>
+                </div>
+
               </div>
             </div>
 
-            <div className={"col l3 m3 offset-m1 s12 " + (this.props.fileJsonCreated===0?'show':'unshow')}>
-              <br/><br/>
-              <center>
-              <a className="waves-effect waves-light btn" onClick={this.convertToJSON}><i className="material-icons right">keyboard_arrow_right</i>Convert</a>
-              </center>
-            </div>
-            <div className={"col l3  m3 offset-m1 s12 " +(this.props.fileJsonCreated===1?'show':'unshow')}>
-              <br/><br/>
-              <center>
-                <DownloadLink  style={downloadLinkStyle} label="Download JSON" className="waves-effect waves-light btn" filename="sample.json"  exportFile={() => this.props.csvToJsonvalues}>
-                </DownloadLink>
-              </center>
-            </div>
 
             <div className="col s12">
               <br/>
@@ -386,18 +354,16 @@ export class CSVtoJSON extends React.Component {
             </div>
 
             <div className="col s12 l2 ">
-              <br/>
-              <br/>
               <center>
+              <br/> <br/> <br/> <br/>
+              <br/>
                 <a className="waves-effect waves-light btn" onClick={this.convertTextAreatoJSON}><i className="material-icons right">keyboard_arrow_right</i>Convert</a>
+              <br/>
+              <br/>
+                <a className="waves-effect waves-light btn" onClick={this.removeAllText}><i className="material-icons right">clear</i>Clear &nbsp; &nbsp; &nbsp; </a>
+              <br/>
+              <br/>
               </center>
-              <br/>
-              <br/>
-              <center>
-                <a className="waves-effect waves-light btn" onClick={this.removeAllText}><i className="material-icons right">clear</i>Clear</a>
-              </center>
-              <br/>
-              <br/>
             </div>
 
             <div className="col s12 l4  m4  inputDiv">
