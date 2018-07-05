@@ -150,18 +150,20 @@ export function converterCsvToJson(readStream,currentState,callback){
 
   csvtojson().fromStream(readStream)
     .subscribe((json)=>{
-      if(currentState){
-        let keysArray = Object.keys(json);
-        keysArray.forEach( (key)=>{
-          if (json[key]===""){
-            json[key]=null;
+      let keysArray = Object.keys(json);
+      keysArray.forEach( (key)=>{
+        let value = json[key];
+        let actualValue = json[key].trim();
+        if( actualValue.length === 0 && !currentState){
+          delete json[key];
+        }else if(actualValue.length != 0){
+          if(!isNaN(actualValue)){
+              return json[key]=Number(actualValue);
           }
-        })
-        completeObject.push(json);
-      }else{
-        completeObject.push(json);
-      }
+        }
+      })
 
+      completeObject.push(json);
     },onError,onComplete);
 
 }

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TROY | Tag Line</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="css/dashboard.css" media="screen,projection">
+    <style>
+        .yellowFont {
+            color: #FFD800;
+        }
+    </style>
+</head>
+<body>
+<div class="show_ham_burger">
+    <nav style="background-color:black;">
+        <div class="nav-wrapper">
+            <a class="brand-logo" href="#">
+                <h4 class="yellowFont aarambh">aarambh</h4>
+            </a>
+            <ul class="left" id="nav-mobile">
+                <li class="li_hover"><a onclick="openNav()"><i class="yellowFont material-icons left" style="font-size:5vh;margin:0px;padding-top:5px;">menu</i></a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="sidenav" id="mySidenav"><a class="yellowFont closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
+    <div class="row" style="margin-top:-20px;">
+        <div class="col s12 aarambh center">
+            <h3 class="yellowFont">AARAMBH</h3>
+        </div>
+        <div class="col s12">
+            <hr width="80%" style="border:0.5px solid grey;"><br><br></div>
+        <div class="col s9 offset-s1"><a class="waves-effect active yellowFont" style="display:block;text-align:left;" href="/dashboard"><i class="material-icons left yellowFont">home</i>My Aarambh</a></div>
+        <div class="col s12"><br></div>
+        <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;" href="/reports"><i class="material-icons left yellowFont">assignment</i>Reports</a></div>
+        <div class="col s12"><br></div>
+        <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;" href="/profile"><i class="material-icons left yellowFont">person_pin</i>Profile</a></div>
+        <div class="col s12"><br></div>
+        <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" href="/logout" style="display:block;text-align:left;"><i class="material-icons left yellowFont">power_settings_new</i>Log out</a></div>
+        <div class="col s12"><br></div>
+        <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;"><i class="material-icons left yellowFont">help</i>Support</a></div>
+        <div class="col s12"><br></div>
+    </div>
+</div>
+<div id="main_frame">
+    <div class="menu_bar hide-on-med-and-down">
+        <div class="row remove_when_small">
+            <div class="col s12 aarambh center">
+                <h3 class="yellowFont">AARAMBH</h3>
+            </div>
+            <div class="col s12">
+                <hr width="80%" style="border:0.5px solid white;"><br><br></div>
+            <div class="col s9 offset-s1"><a class="waves-effect active yellowFont" style="display:block;text-align:left;" href="/dashboard"><i class="material-icons left yellowFont">home</i>My Aarambh</a></div>
+            <div class="col s12"><br></div>
+            <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;" href="/reports"><i class="material-icons left yellowFont">assignment</i>Reports</a></div>
+            <div class="col s12"><br></div>
+            <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;" href="/profile"><i class="material-icons left yellowFont">person_pin</i>Profile</a></div>
+            <div class="col s12"><br></div>
+            <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" href="/logout" style="display:block;text-align:left;"><i class="material-icons left yellowFont">power_settings_new</i>Log out</a></div>
+            <div class="col s12"><br></div>
+            <div class="col s9 offset-s1"><a class="waves-effect inactive yellowFont" style="display:block;text-align:left;"><i class="material-icons left yellowFont">help</i>Support</a></div>
+            <div class="col s12"><br></div>
+        </div>
+        <div style="position: absolute;bottom: 0;right: -10%;"><img src="/files/cloudGrey.png" height="150px"></div>
+        <div style="position: absolute;bottom: 10%;right: 30%;"><img src="/files/cloudGrey.png" height="75px"></div>
+    </div>
+    <div class="data_area" style="overflow-y:scroll;">
+        <div class="navbar-fixed">
+            <nav class="black">
+                <div class="nav-wrapper"><a class="brand-logo regular-roboto" href="#" style="color: #FFD800;">&nbsp;&nbsp;Dashboard</a>
+                    <ul class="right hide-on-med-and-down" id="nav-mobile">
+                        <li><a href="sass.html">Sass</a></li>
+                        <li><a href="badges.html">Components</a></li>
+                        <li><a href="collapsible.html">JavaScript</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container1">
+            <div class="dot dot-1"></div>
+            <div class="dot dot-2"></div>
+            <div class="dot dot-3"></div>
+        </div>
+        <div class="magicText">
+            <h5 id="magicTextContent">Ridding Unicorns!</h5>
+        </div>
+        <div class="row" style="position: absolute;bottom: 2%;left:17%;">
+            <div class="col l12 m6 s8">
+                <div class="card-panel grey darken-4"><span class="white-text"><h5 class="center">Hey There!</h5><p>Our Extension is mixing all the chemicals. Visit after 2 Days to see your detailed analysis!</p></span></div>
+            </div>
+        </div><img src="/files/waitone.gif" height="150px" style="position: absolute;right: 10%;bottom: 0;">
+        <div class="row" style="display: none;">
+            <div class="col s12 hide-on-large-only"><br><br><br></div>
+            <div class="col l5"><br>
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;">
+                    <nav style="background-color:#33adff;margin-top:-45px;border-radius:5px;">
+                        <div class="nav-wrapper">
+                            <a class="brand-logo center" style="margin-top:15px;display;block;width:100%;">
+                                <h6 style="color:white;font-family:Roboto-Medium;font-size:2.5vh;">Top Keywords Searches</h6>
+                            </a>
+                        </div>
+                    </nav><br>
+                    <div class="chip" style="font-size:2vh;margin-bottom: 15px;color:black;font-family:Roboto-Light;">Facebook</div>
+                    <div class="chip" style="margin-bottom: 15px;font-size:2vh;color:black;font-family:Roboto-Light;">Al-Qaeda</div>
+                    <div class="chip" style="margin-bottom: 15px;font-size:2vh;color:black;font-family:Roboto-Light;">Fifa World Cup</div>
+                    <div class="chip" style="margin-bottom: 15px;font-size:2vh;color:black;font-family:Roboto-Light;">Naruto</div>
+                    <div class="chip" style="margin-bottom: 15px;font-size:2vh;color:black;font-family:Roboto-Light;">Die Hard</div>
+                    <div class="chip" style="margin-bottom: 15px;font-size:2vh;color:black;font-family:Roboto-Light;">MotoGP</div>
+                </div>
+            </div>
+            <div class="col l5"><br>
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;">
+                    <nav style="background-color:#33adff;margin-top:-45px;border-radius:5px;">
+                        <div class="nav-wrapper">
+                            <a class="brand-logo center" style="margin-top:15px,display,block;width:100%;">
+                                <h6 style="color:white;font-family:Roboto-Medium;font-size:2.5vh;">Top Websites Searches</h6>
+                            </a>
+                        </div>
+                    </nav><br>
+                    <div class="chip" style="font-size:2vh;margin-bottom: 15px;color:black;font-family:Roboto-Light;">Facebook</div>
+                    <div class="chip" style="font-size:2vh;margin-bottom: 15px;color:black;font-family:Roboto-Light;">goal.com</div>
+                    <div class="chip" style="font-size:2vh;margin-bottom: 15px;color:black;font-family:Roboto-Light;">mangapanda.com</div>
+                    <div class="chip" style="font-size:2vh;margin-bottom: 15px;color:black;font-family:Roboto-Light;">Amazon</div>
+                </div>
+            </div>
+            <div class="col l2 s12"><br>
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;padding-bottom:12px;">
+                    <nav style="background-color:#33adff;margin-top:-45px;border-radius:5px;margin-bottom:20px;">
+                        <div class="nav-wrapper">
+                            <a class="brand-logo center" style="margin-top:15px,display:block,width:100%;">
+                                <h6 style="color:white;font-family:Roboto-Medium;font-size:2.5vh;">Vulerability</h6>
+                            </a>
+                        </div>
+                    </nav>
+                    <center><a class="btn-floating btn-large cyan pulse" style="margin-bottom:10px;display:block;background-color:#33adff;"><i class="material-icons" style="margin-top:-10px;font-size:5vh;">account_circle</i></a>
+                        <h5 style="font-family:Regular-Medium;">Safe</h5>
+                    </center>
+                </div>
+            </div>
+            <div class="col l12 s12">
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;">
+                    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+                </div>
+            </div>
+            <div class="col l6 s12">
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;">
+                    <div id="container1"></div>
+                </div>
+            </div>
+            <div class="col l6 s12">
+                <div class="card-panel z-depth-4" style="border:1px solid #ccc;">
+                    <div id="container2"></div>
+                </div>
+            </div>
+            <!--<div class="col l6 s12">
+<div id="container1"></div>
+</div>--></div>
+    </div>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.tooltipped').tooltip({
+            html: true
+        });
+        var v = 0;
+        var magicTextContent = [
+            "Ridding Unicorns!",
+            "Launching Statelites!",
+            "Mixing Chemicals!",
+            "Chasing Rainbows!",
+            "Collecting Coloured Stones!"
+        ]
+        setInterval(function() {
+            $("#magicTextContent").html(magicTextContent[v])
+            v++;
+            if (v == magicTextContent.length) {
+                v = 0;
+            }
+        }, 3000)
+    });
+</script>
+<script>
+    function createVulnerChart() {
+        Highcharts.theme = {
+            colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+                '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'
+            ],
+            chart: {
+                backgroundColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 1,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, '#2a2a2b'],
+                        [1, '#3e3e40']
+                    ]
+                },
+                plotBorderColor: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase',
+                    fontSize: '20px'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase'
+                }
+            },
+            xAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
+            },
+            yAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                tickWidth: 1,
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                style: {
+                    color: '#F0F0F0'
+                }
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        color: '#B0B0B3'
+                    },
+                    marker: {
+                        lineColor: '#333'
+                    }
+                },
+                boxplot: {
+                    fillColor: '#505053'
+                },
+                candlestick: {
+                    lineColor: 'white'
+                },
+                errorbar: {
+                    color: 'white'
+                }
+            },
+            legend: {
+                itemStyle: {
+                    color: '#E0E0E3'
+                },
+                itemHoverStyle: {
+                    color: '#FFF'
+                },
+                itemHiddenStyle: {
+                    color: '#606063'
+                }
+            },
+            credits: {
+                style: {
+                    color: '#666'
+                }
+            },
+            labels: {
+                style: {
+                    color: '#707073'
+                }
+            },
+            drilldown: {
+                activeAxisLabelStyle: {
+                    color: '#F0F0F3'
+                },
+                activeDataLabelStyle: {
+                    color: '#F0F0F3'
+                }
+            },
+            navigation: {
+                buttonOptions: {
+                    symbolStroke: '#DDDDDD',
+                    theme: {
+                        fill: '#505053'
+                    }
+                }
+            },
+            // scroll charts
+            rangeSelector: {
+                buttonTheme: {
+                    fill: '#505053',
+                    stroke: '#000000',
+                    style: {
+                        color: '#CCC'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#707073',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        },
+                        select: {
+                            fill: '#000003',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                },
+                inputBoxBorderColor: '#505053',
+                inputStyle: {
+                    backgroundColor: '#333',
+                    color: 'silver'
+                },
+                labelStyle: {
+                    color: 'silver'
+                }
+            },
+            navigator: {
+                handles: {
+                    backgroundColor: '#666',
+                    borderColor: '#AAA'
+                },
+                outlineColor: '#CCC',
+                maskFill: 'rgba(255,255,255,0.1)',
+                series: {
+                    color: '#7798BF',
+                    lineColor: '#A6C7ED'
+                },
+                xAxis: {
+                    gridLineColor: '#505053'
+                }
+            },
+            scrollbar: {
+                barBackgroundColor: '#808083',
+                barBorderColor: '#808083',
+                buttonArrowColor: '#CCC',
+                buttonBackgroundColor: '#606063',
+                buttonBorderColor: '#606063',
+                rifleColor: '#FFF',
+                trackBackgroundColor: '#404043',
+                trackBorderColor: '#404043'
+            },
+            // special colors for some of the
+            legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+            background2: '#505053',
+            dataLabelsColor: '#B0B0B3',
+            textColor: '#C0C0C0',
+            contrastTextColor: '#F0F0F3',
+            maskColor: 'rgba(255,255,255,0.3)'
+        };
+        // Highcharts.setOptions(Highcharts.theme);
+        Highcharts.chart('container', {
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: '<b>Monthly Average Vulnerability Index</b>'
+            },
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                ]
+            },
+            yAxis: {
+                title: {
+                    text: 'Vulerability Index'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: true,
+                shared: true
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        radius: 4,
+                        lineColor: '#666666',
+                        lineWidth: 1
+                    }
+                }
+            },
+            series: [{
+                name: 'Time Vs Vulerability',
+                marker: {
+                    symbol: 'square'
+                },
+                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            }]
+        });
+    }
+
+    function createPieChart() {
+        Highcharts.chart('container1', {
+            title: {
+                text: 'Pie point CSS'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                allowPointSelect: true,
+                keys: ['name', 'y', 'selected', 'sliced'],
+                data: [
+                    ['Apples', 29.9, false],
+                    ['Pears', 71.5, false],
+                    ['Oranges', 106.4, false],
+                    ['Plums', 129.2, false],
+                    ['Bananas', 144.0, false],
+                    ['Peaches', 176.0, false],
+                    ['Prunes', 135.6, true, true],
+                    ['Avocados', 148.5, false]
+                ],
+                showInLegend: true
+            }]
+        });
+        Highcharts.chart('container2', {
+            title: {
+                text: 'Pie point CSS'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                type: 'pie',
+                allowPointSelect: true,
+                keys: ['name', 'y', 'selected', 'sliced'],
+                data: [
+                    ['Apples', 29.9, false],
+                    ['Pears', 71.5, false],
+                    ['Oranges', 106.4, false],
+                    ['Plums', 129.2, false],
+                    ['Bananas', 144.0, false],
+                    ['Peaches', 176.0, false],
+                    ['Prunes', 135.6, true, true],
+                    ['Avocados', 148.5, false]
+                ],
+                showInLegend: true
+            }]
+        });
+    }
+    createVulnerChart();
+    createPieChart();
+
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.body.style.backgroundColor = "white";
+    }
+
+    function check() {
+        if (window.location.href == "http://troy.solutions/dashboard") {
+            setTimeout(function() {
+                if (document.getElementById("extension-already-installed")) {
+                    console.log("remain here");
+                } else {
+                    window.location.href = '/install';
+                }
+            }, 1000);
+        }
+    }
+
+</script>
+
+</body>
+</html>

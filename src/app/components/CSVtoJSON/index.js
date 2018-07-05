@@ -153,17 +153,19 @@ export class CSVtoJSON extends React.Component {
          return new Promise((resolve,reject)=>{
            let singleObject={};
            let arrayLength = sampleArray.length;
-           sampleArray.forEach( (value,index)=>{
+           sampleArray.forEach( (actualValue,index)=>{
 
-             if(value===""){
-                if(currentState){
-                  singleObject[ColoumnHead[index]]=null;
-                }else{
-                  singleObject[ColoumnHead[index]]="";
-                }
-             }else{
-               singleObject[ColoumnHead[index]]=value;
-             }
+               let value  = actualValue.trim();
+               if(value.length === 0 && currentState){
+                 singleObject[ColoumnHead[index]]='';
+               }else if(value.length !=0){
+
+                 if(!isNaN(value)){
+                   return singleObject[ColoumnHead[index]]=Number(value);
+                 }
+                 singleObject[ColoumnHead[index]]=value;
+               }
+
 
              if(arrayLength -1 === index){
                resolve(singleObject);
@@ -261,7 +263,7 @@ export class CSVtoJSON extends React.Component {
                        onChange={this.onParsingChoice}
                        id="test1"
                      />
-                    <label htmlFor="test1">Object value null</label>
+                    <label htmlFor="test1">Empty Values Required</label>
                   </p>
                   <p>
                     <input class="with-gap"
@@ -271,7 +273,7 @@ export class CSVtoJSON extends React.Component {
                       checked={this.props.typeOfParsing === 0}
                       onChange={this.onParsingChoice}
                        id="test2" />
-                    <label htmlFor="test2">Object value space</label>
+                    <label htmlFor="test2">Remove empty values </label>
                   </p>
                 </form>
                 <br/>

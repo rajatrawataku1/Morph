@@ -62,36 +62,49 @@ export class JSONtoCSV extends React.Component {
   processDataJsonCsv = (json,typeOfRequest=0)=>{
 
     let getCompleteCSV = (jsonObjectMain)=>{
+
       return new Promise( (resolve,reject)=>{
-        let mainString ="";
+        let tempColoumnHead = [];
+        let content = [];
         let jsonObjectMainLength = jsonObjectMain.length;
-        jsonObjectMain.forEach( (singleObject,index) =>{
-
-            //  coloumnHeads check is required
-            let tempColoumnHead =Object.keys(singleObject);
-            if( tempColoumnHead.length > this.props.columnNameJsonToCsv.length && index !=0){
-              let coloumnHeads = Object.keys(singleObject);
-              this.props.setJsonToCSvColoumnHead(coloumnHeads);
-              let StringAfterFirstRow = mainString.substr(mainString.indexOf("\n"));
-              let newFirstRowString = coloumnHeads.toString();
-              mainString = newFirstRowString + StringAfterFirstRow;
+        jsonObjectMain.forEach((singleObject,index) =>{
+          let keys = Object.keys(singleObject);
+          keys.forEach((key)=> {
+            if (tempColoumnHead.indexOf(key) === -1) {
+              tempColoumnHead.push(key);
             }
-
-            if(index === 0){
-              let coloumnHeads = Object.keys(singleObject);
-              this.props.setJsonToCSvColoumnHead(coloumnHeads);
-              let oneRow = coloumnHeads.toString();
-              mainString = mainString + oneRow + "\n";
-            }
-
-              let arrayOfValues = Object.values(singleObject);
-              let oneRow  = arrayOfValues.toString();
-              mainString = mainString + oneRow + "\n";
-
-            if(jsonObjectMainLength -1 === index){
-              resolve(mainString);
-            }
+          });
+          if(index == jsonObjectMainLength-1){
+            this.props.setJsonToCSvColoumnHead(tempColoumnHead);
+          }
         });
+
+        jsonObjectMain.forEach( (singleObject,index) =>{
+            let values=[];
+            tempColoumnHead.forEach((key)=>{
+
+              let value = singleObject[key];
+              let valueType = typeof value;
+              if(value === undefined){
+                values.push('');
+              } else if( (valueType === 'number') || (valueType === 'boolean') ){
+                values.push(value);
+              } else if ((valueType === 'string')) {
+                values.push(JSON.stringify(value));
+              }else if(valueType === 'object' && value instanceof Array){
+                value = value.join();
+                values.push(JSON.stringify(value));
+              }else{
+                values.push('');
+              }
+            })
+            content.push(values);
+        });
+
+        tempColoumnHead = tempColoumnHead.join(',');
+        content = content.join('\r\n');
+        let mainCSVString = [tempColoumnHead,content].join('\r\n');
+        resolve(mainCSVString);
 
       })
     }
