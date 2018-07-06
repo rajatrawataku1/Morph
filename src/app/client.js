@@ -7,11 +7,6 @@ import App from "./components/App"
 import store from "./store"
 
 const app = document.getElementById('app')
+const provider = <Provider store={store}><div><Router><App /></Router></div></Provider>;
 
-ReactDOM.render(<Provider store={store}>
-  <div>
-    <Router>
-      <App />
-    </Router>
-  </div>
-</Provider>, app);
+ReactDOM.render(provider, app);
