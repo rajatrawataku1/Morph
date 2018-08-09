@@ -45,10 +45,13 @@ const STYLES = {
 
 export class CSVtoJSON extends React.Component {
 
-
-
   constructor(props) {
     super(props)
+  }
+
+  hey(){
+    console.log(this.onParsingChoice);
+    console.log("Hey");
   }
 
   // change the parsing choice whehter null or space
