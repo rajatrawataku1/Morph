@@ -1,0 +1,43 @@
+.mainApp{
+  position: absolute;
+  top:0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+}
+
+.textColor{
+  color: #647f86;
+  font-family: 'apercu-pro', sans-serif;
+  font-weight: bold;
+  font-size: 5vh;
+}
+
+.markLine{
+  border-left: 2px solid #99b6be;
+}
+
+.inputDiv{
+  border-radius: 5px;
+  border: 1px dashed #99b6be;
+}
+
+.iconMiddle{
+  padding-left: 5px;
+  vertical-align:sub;
+}
+
+.show{
+  display: block;
+}
+
+.unshow{
+  display: none;
+}
+
+.loaderBox{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
